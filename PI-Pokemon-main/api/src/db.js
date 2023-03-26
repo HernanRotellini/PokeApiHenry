@@ -3,6 +3,9 @@ const { Sequelize } = require('sequelize');
 const fs = require('fs');
 const path = require('path');
 const { DB_USER, DB_PASSWORD, DB_HOST } = process.env;
+const PokemonModel = require("./models/Pokemon.js")
+const TypeModel = require("./models/Type.js")
+
 
 const sequelize = new Sequelize(
    `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/pokemon`,
@@ -37,12 +40,16 @@ let capsEntries = entries.map((entry) => [
 ]);
 sequelize.models = Object.fromEntries(capsEntries);
 
+PokemonModel(sequelize);
+TypeModel(sequelize);
 // En sequelize.models están todos los modelos importados como propiedades
 // Para relacionarlos hacemos un destructuring
-const { Pokemon } = sequelize.models;
+const { Pokemon, Type } = sequelize.models;
 
 // Aca vendrian las relaciones
 // Product.hasMany(Reviews);
+Pokemon.belongsToMany(Type, { through: 'pokemon_types', timestamps: false });
+Type.belongsToMany(Pokemon, { through: 'pokemon_types', timestamps: false });
 
 module.exports = {
    ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');
