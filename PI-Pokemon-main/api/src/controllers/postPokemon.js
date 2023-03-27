@@ -6,10 +6,29 @@ async function createPokemon(req, res) {
     try {
       const { id, name, stats, sprites, height, weight } = req.body;
       const { front_default } = sprites;
-      const hp = stats[0].base_stat;
-      const attack = stats[1].base_stat;
-      const defense = stats[2].base_stat;
-      const speed = stats[5].base_stat;
+     
+        
+     
+for (let i = 0; i < stats.length; i++) {
+  switch (stats[i].stat.name) {
+    case "hp":
+      hp = stats[i].base_stat;
+      
+    case "attack":
+      attack = stats[i].base_stat;
+     
+    case "defense":
+      defense = stats[i].base_stat;
+   
+    case "speed":
+      speed = stats[i].base_stat;
+     
+    default:
+     
+      
+  }
+}
+      
       const heightString = height + "ft";
       const weightString = weight + "lb";
       const types = req.body.types;
@@ -28,7 +47,7 @@ for (let type of types) {
       // Asociar los tipos al pokemon
      
       const pokemon = await Pokemon.create({
-        id:id,
+        idPokemon:id,
         name:name,
         image: front_default,
         hp:hp,

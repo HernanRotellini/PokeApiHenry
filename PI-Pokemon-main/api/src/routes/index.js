@@ -3,7 +3,7 @@ const { Router } = require('express');
 // Ejemplo: const authRouter = require('./auth.js');
 const createPokemon = require("../controllers/postPokemon")
 const getAllPokemons = require("../controllers/getAllPokemons")
-
+const {Pokemon} = require("../db");
 
 const router = Router();
 
