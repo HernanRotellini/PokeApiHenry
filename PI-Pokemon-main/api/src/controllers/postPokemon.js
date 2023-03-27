@@ -4,35 +4,17 @@ const {Pokemon,Type} = require("../db");
 
 async function createPokemon(req, res) {
     try {
-      const { id, name, stats, sprites, height, weight } = req.body;
-      const { front_default } = sprites;
-     
-        
-     
-for (let i = 0; i < stats.length; i++) {
-  switch (stats[i].stat.name) {
-    case "hp":
-      hp = stats[i].base_stat;
-      
-    case "attack":
-      attack = stats[i].base_stat;
-     
-    case "defense":
-      defense = stats[i].base_stat;
-   
-    case "speed":
-      speed = stats[i].base_stat;
-     
-    default:
-     
-      
-  }
-}
-      
-      const heightString = height + "ft";
-      const weightString = weight + "lb";
-      const types = req.body.types;
-      const foundTypes = [];
+    const { id, name, stats, sprites, height, weight } = req.body;
+    const { front_default } = sprites;
+    const hp = stats.find((stat) => stat.stat.name === 'hp').base_stat;
+    const attack = stats.find((stat) => stat.stat.name === 'attack').base_stat;
+    const defense = stats.find((stat) => stat.stat.name === 'defense').base_stat;
+    const speed = stats.find((stat) => stat.stat.name === 'speed').base_stat;
+    const heightString = height + "ft";
+    const weightString = weight + "lb";
+    const types = req.body.types;
+    const foundTypes = [];
+
 for (let type of types) {
   const foundType = await Type.findOne({
     where: { name: type.type.name }
@@ -48,12 +30,12 @@ for (let type of types) {
      
       const pokemon = await Pokemon.create({
         idPokemon:id,
-        name:name,
+        name,
         image: front_default,
-        hp:hp,
-        attack:attack,
-        defense:defense,
-        speed:speed,
+        hp,
+        attack,
+        defense,
+        speed,
         height:heightString,
         weight:weightString,
       });
