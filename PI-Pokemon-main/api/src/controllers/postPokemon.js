@@ -30,12 +30,12 @@ for (let type of types) {
      
       const pokemon = await Pokemon.create({
         idPokemon:id,
-        name,
+        name:name,
         image: front_default,
-        hp,
-        attack,
-        defense,
-        speed,
+        hp:hp,
+        attack:attack,
+        defense:defense,
+        speed:speed,
         height:heightString,
         weight:weightString,
       });
