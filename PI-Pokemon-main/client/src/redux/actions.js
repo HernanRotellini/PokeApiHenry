@@ -4,8 +4,13 @@ import axios from "axios"
 export const getAllPokemons = () => {
     return async (dispatch) => {
       try {
-         const response = await axios.get("http://localhost:3001/pokemons")
-        return dispatch({ type: GET_ALL_POKEMONS, payload: response.data });
+        const response = await axios.get("http://localhost:3001/pokemons");
+        const pokemons = response.data;
+        for (const pokemon of pokemons) {
+          const typesResponse = await axios.get(`http://localhost:3001/pokemons/${pokemon.id}/types`);
+          pokemon.types = typesResponse.data;
+        }
+        return dispatch({ type: GET_ALL_POKEMONS, payload: pokemons });
       } catch (error) {
         console.error(error);
       }

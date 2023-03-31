@@ -12,7 +12,7 @@ async function createPokemon(req, res) {
     const speed = stats.find((stat) => stat.stat.name === 'speed').base_stat;
     const heightString = height + "ft";
     const weightString = weight + "lb";
-    const types = req.body.types;
+    const {types} = req.body
     const foundTypes = [];
 
 for (let type of types) {
@@ -29,7 +29,7 @@ for (let type of types) {
       // Asociar los tipos al pokemon
      
       const pokemon = await Pokemon.create({
-        idPokemon:id,
+        id:id,
         name:name,
         image: front_default,
         hp:hp,

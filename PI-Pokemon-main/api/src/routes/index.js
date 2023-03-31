@@ -5,8 +5,7 @@ const createPokemon = require("../controllers/postPokemon")
 const getAllPokemons = require("../controllers/getAllPokemons")
 const getPokemonbyName = require("../controllers/getPokemonbyName")
 const getPokemonbyId = require("../controllers/getPokemonbyId")
-
-
+const getPokemonTypes = require("../controllers/getPokemonTypes")
 const router = Router();
 
 // Configurar los routers
@@ -15,5 +14,5 @@ router.get("/", getAllPokemons)
 router.get("/name", getPokemonbyName)
 router.get("/:idPokemon", getPokemonbyId)
 router.post("/", createPokemon)
-
+router.get("/:idPokemon/types", getPokemonTypes)
 module.exports = router;

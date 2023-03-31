@@ -3,21 +3,22 @@ const axios = require("axios")
 
 const getAllTypes = async (req, res) => {
   try {
-    const types = await Type.findAll();
-
-    if(types.length >0){
-    res.json(types);
-}else
-{
     const response = await axios.get('https://pokeapi.co/api/v2/type');
    
     const types = response.data.results;
-
+let allTypes= []
 for (const type of types) {
-  await Type.create({ name: type.name });
+  const exist = await Type.findOne({where: { name : type.name }})
+  if(!exist){
+  const newType =await Type.create({ name: type.name });
+  allTypes.push(newType)
+}else{
+  allTypes.push(exist)
+}
 }
 
-res.status(201).json(types);}
+    res.json(allTypes);
+
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: 'Internal server error' });

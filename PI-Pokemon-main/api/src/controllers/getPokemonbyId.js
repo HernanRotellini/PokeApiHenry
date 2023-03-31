@@ -13,7 +13,7 @@ const getPokemonbyId = async (req, res) => {
     const heightString = height + "ft";
     const weightString = weight + "lb";
     const poke = {
-        idPokemon:id,
+        id:id,
         name,
         image:front_default,
         hp,
@@ -28,7 +28,7 @@ const getPokemonbyId = async (req, res) => {
     const {idPokemon} = req.params;
     const poke = await Pokemon.findAll({
       where: {
-        idPokemon: idPokemon,
+        id: idPokemon,
       },
     });
     if(poke){

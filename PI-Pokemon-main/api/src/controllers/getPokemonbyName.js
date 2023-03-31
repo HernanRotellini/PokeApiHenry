@@ -14,7 +14,7 @@ const getPokemonbyName = async (req, res) => {
             const heightString = height + "ft";
             const weightString = weight + "lb";
             const poke = {
-                idPokemon:id,
+                id:id,
                 name,
                 image:front_default,
                 hp,
@@ -40,7 +40,7 @@ const getPokemonbyName = async (req, res) => {
                 const pokemonList = dbPokemon.map(pokemon => {
                   const { idPokemon, name, image, hp, attack, defense, speed, height, weight } = pokemon;
                   return {
-                    idPokemon,
+                    id:idPokemon,
                     name,
                     image,
                     hp,
