@@ -17,7 +17,7 @@ for (const type of types) {
 }
 }
 
-    res.json(allTypes);
+    
 
   } catch (error) {
     console.log(error);
