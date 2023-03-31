@@ -16,9 +16,9 @@ function Home({ allPokemons }) {
             <div key={pokemon.id}>
               {pokemon.image ? <img src={pokemon.image} alt="" />: <h2>No se encontro imagen</h2>}
               {pokemon.name ?<h2>{pokemon.name}</h2>: <h2>No tiene nombre</h2>}
-              {pokemon.pokemon_types ? (
+              {pokemon.Types ? (
             <ul>
-            {pokemon.pokemon_types.map((type) => {
+            {pokemon.Types.map((type) => {
              return <li key={type.id}>{type.name}</li>;
             })}
              </ul>
