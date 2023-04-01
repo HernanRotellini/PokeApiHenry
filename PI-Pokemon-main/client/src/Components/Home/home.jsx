@@ -14,8 +14,7 @@ function Home(props) {
       {props.allPokemons.map((pokemon)=>{
         return(
          <Card id={pokemon.id} name={pokemon.name} image={pokemon.image} 
-         hp={pokemon.hp} attack={pokemon.attack} defense={pokemon.defense} 
-         speed={pokemon.speed} weight={pokemon.weight} height={pokemon.height}
+         
          types={pokemon.types}/>
         )
       })}

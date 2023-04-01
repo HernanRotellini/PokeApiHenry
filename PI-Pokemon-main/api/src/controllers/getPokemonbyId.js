@@ -1,4 +1,4 @@
-const {Pokemon} = require("../db");
+const {Pokemon,Type} = require("../db");
 const axios = require("axios")
 const getPokemonbyId = async (req, res) => {
   try {
@@ -12,9 +12,11 @@ const getPokemonbyId = async (req, res) => {
     const speed = stats.find((stat) => stat.stat.name === 'speed').base_stat;
     const heightString = height + "ft";
     const weightString = weight + "lb";
+    const {types} = apiResponse.data
+    const pokeName = name.charAt(0).toUpperCase() + name.slice(1);
     const poke = {
         id:id,
-        name,
+        name:pokeName,
         image:front_default,
         hp,
         attack,
@@ -22,14 +24,18 @@ const getPokemonbyId = async (req, res) => {
         speed,
         height:heightString,
         weight:weightString,
+        types: types.map((type) => {
+          const typeName = type.type.name.charAt(0).toUpperCase() + type.type.name.slice(1);
+        return typeName}),
       }
     res.json(poke);
   } catch (error) {
     const {idPokemon} = req.params;
-    const poke = await Pokemon.findAll({
+    const poke = await Pokemon.findOne({
       where: {
         id: idPokemon,
       },
+     
     });
     if(poke){
       res.json(poke);
