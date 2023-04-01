@@ -2,8 +2,8 @@ import { useEffect } from "react";
 import {connect} from "react-redux"
 import { useDispatch } from "react-redux";
 import {getAllPokemons} from "../../redux/actions"
-
-function Home({ allPokemons }) {
+import Card from "../Card/card"
+function Home(props) {
     const dispatch = useDispatch();
     useEffect(() => {
       dispatch(getAllPokemons());
@@ -11,25 +11,18 @@ function Home({ allPokemons }) {
   
     return (
       <div>
-        {allPokemons.map((pokemon) => {
-          return (
-            <div key={pokemon.id}>
-              {pokemon.image ? <img src={pokemon.image} alt="" />: <h2>No se encontro imagen</h2>}
-              {pokemon.name ?<h2>{pokemon.name}</h2>: <h2>No tiene nombre</h2>}
-              {pokemon.Types ? (
-            <ul>
-            {pokemon.Types.map((type) => {
-             return <li key={type.id}>{type.name}</li>;
-            })}
-             </ul>
-            ) : (
-            <p>No hay tipos de Pokémon disponibles para este Pokémon.</p>
-            )}
-            </div>
-          );
-        })}
+      {props.allPokemons.map((pokemon)=>{
+        return(
+         <Card id={pokemon.id} name={pokemon.name} image={pokemon.image} 
+         hp={pokemon.hp} attack={pokemon.attack} defense={pokemon.defense} 
+         speed={pokemon.speed} weight={pokemon.weight} height={pokemon.height}
+         types={pokemon.types}/>
+        )
+      })}
       </div>
-    );
+    )
+     
+       
   }
   
   const mapStateToProps = (state) => {
