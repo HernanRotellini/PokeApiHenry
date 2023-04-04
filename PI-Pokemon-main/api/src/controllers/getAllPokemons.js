@@ -5,7 +5,7 @@ const axios = require('axios')
 
 
 let isFirstRequest = true;
-
+let apiPokemons= [];
 const getAllPokemons = async (req, res) => {
   try {
     if (isFirstRequest) {
@@ -37,7 +37,7 @@ const getAllPokemons = async (req, res) => {
           }
         }
         const pokeName = name.charAt(0).toUpperCase() + name.slice(1);
-        const poke = await Pokemon.create({
+        const poke = {
           id: id,
           name: pokeName,
           image: front_default,
@@ -47,14 +47,16 @@ const getAllPokemons = async (req, res) => {
           speed: speed,
           height: heightString,
           weight: weightString,
-        });
-        await poke.addTypes(foundTypes);
+          types: foundTypes.map((type) => type.name),
+        };
+        
+        apiPokemons.push(poke);
       });
       await Promise.all(pokemonPromises);
       isFirstRequest = false;
     }
  
-   const allPokemons = await Pokemon.findAll({
+   const dbPokemons = await Pokemon.findAll({
     include: [{ model: Type, attributes: ["name"] }],
   }).then((pokemons) =>
     pokemons.map((pokemon) => ({
@@ -70,6 +72,7 @@ const getAllPokemons = async (req, res) => {
       types: pokemon.Types.map((type) => type.name),
     }))
   );
+  let allPokemons = dbPokemons.concat(apiPokemons);
    res.json(allPokemons);
   } catch (error) {
     console.log(error);

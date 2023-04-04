@@ -5,9 +5,7 @@ export const getAllPokemons = () => {
     return async (dispatch) => {
       try {
         const response = await axios.get("http://localhost:3001/pokemons");
-        const pokemons = response.data;
-        
-        return dispatch({ type: GET_ALL_POKEMONS, payload: pokemons });
+        return dispatch({ type: GET_ALL_POKEMONS, payload: response.data});
       } catch (error) {
         console.error(error);
       }

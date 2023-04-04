@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+
 import {connect} from "react-redux"
 import { useDispatch } from "react-redux";
 import {getAllPokemons} from "../../redux/actions"
@@ -8,14 +9,16 @@ function Home(props) {
     useEffect(() => {
       dispatch(getAllPokemons());
     }, [dispatch]);
-  
+
     return (
-      <div>
+      <div >
       {props.allPokemons.map((pokemon)=>{
         return(
+          <div key={pokemon.id}>
          <Card id={pokemon.id} name={pokemon.name} image={pokemon.image} 
-         
-         types={pokemon.types}/>
+         types={pokemon.types}
+         />
+        </div>
         )
       })}
       </div>

@@ -17,8 +17,8 @@ function Detail(props) {
             {pokemonDetail.image ? <img src={pokemonDetail.image} alt="" />: <h2>No se encontro imagen</h2>}
             {pokemonDetail.name ?<h2>{pokemonDetail.name}</h2>: <h2>No tiene nombre</h2>}
             {pokemonDetail.types?
-            pokemonDetail.types.map((type) => {
-             return <h4 key={type.id}>{type}</h4>;
+            pokemonDetail.types.map((type,i) => {
+             return <h4 key={i}>{type}</h4>;
             }): <h2>Unknown</h2>
             }
            {pokemonDetail.hp ? <h2>Hp: {pokemonDetail.hp}</h2>: <h2>No tiene hp</h2>}
