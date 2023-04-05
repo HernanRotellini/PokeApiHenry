@@ -1,4 +1,4 @@
-import { GET_ALL_POKEMONS, GET_POKEMON_DETAIL,GET_POKEMON_NAME, POST_POKEMON } from "./actionstype";
+import { GET_ALL_POKEMONS, GET_POKEMON_DETAIL,GET_POKEMON_NAME, POST_POKEMON, FILTERED_POKEMONS,ORDERED_POKEMONS } from "./actionstype";
 import axios from "axios"
 
 export const getAllPokemons = () => {
@@ -50,3 +50,14 @@ export const getAllPokemons = () => {
       }
     };
   };
+
+  export const filteredPokemons=(type= "All", origin = "Any")=>{
+    return async (dispatch)=>{
+      dispatch({type: FILTERED_POKEMONS, payload: type,origin})
+    }
+  }
+  export const orderedPokemons=(order="NoOrder")=>{
+    return async (dispatch)=>{
+      dispatch({type: ORDERED_POKEMONS, payload: order})
+    }
+  }

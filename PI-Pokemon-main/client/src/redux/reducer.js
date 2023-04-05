@@ -1,4 +1,4 @@
-import { GET_ALL_POKEMONS, GET_POKEMON_DETAIL, GET_POKEMON_NAME, POST_POKEMON } from "./actionstype";
+import { GET_ALL_POKEMONS, GET_POKEMON_DETAIL, GET_POKEMON_NAME, POST_POKEMON, FILTERED_POKEMONS,ORDERED_POKEMONS } from "./actionstype";
 
 const initialState= {
 allPokemons:[],
@@ -31,6 +31,53 @@ const reducer = (state= initialState, action)=>{
             return{
                 ...state,
                 allPokemons: [...state.allPokemons,action.payload]
+            }
+        }
+        case FILTERED_POKEMONS: {
+            return{
+                ...state,
+                filteredPokemons: state.allPokemons.filter(pokemon=>{
+                if(action.payload.origin === "Api"){
+                    if(action.payload.type !== "All"){
+                return pokemon.types.includes(action.payload.type) && Number.isInteger(pokemon.id)
+                    }else{
+                        return Number.isInteger(pokemon.id)
+                    }
+                }
+                if(action.payload.origin === "Database"){
+                    if(action.payload.type !== "All"){
+                        return pokemon.types.includes(action.payload.type) && !Number.isInteger(pokemon.id)
+                            }else{
+                                return !Number.isInteger(pokemon.id)
+                            }
+                }
+                if(action.payload.origin === "Any"){
+                    if(action.payload.type !== "All"){
+                        return pokemon.types.includes(action.payload.type)
+                    }else{
+                        return pokemon
+                    }
+                }
+            return "No se encontraron pokemones con ese tipo u origen"})
+            }
+        }
+        case ORDERED_POKEMONS:{
+            let orderedPokemons = [...state.filteredPokemons]
+            if (action.payload === 'A-Z') {
+                orderedPokemons.sort((a, b) => a.name.localeCompare(b.name));
+            }
+            if (action.payload === 'Z-A') {
+                orderedPokemons.sort((a, b) => b.name.localeCompare(a.name));
+            }
+            if (action.payload === 'Asc') {
+                orderedPokemons.sort((a, b) => a.attack - b.attack);
+            }
+            if (action.payload === 'Desc') {
+                orderedPokemons.sort((a, b) => a.attack - b.attack);
+            }
+            return{
+                ...state,
+                orderedPokemons: orderedPokemons
             }
         }
         default: {
