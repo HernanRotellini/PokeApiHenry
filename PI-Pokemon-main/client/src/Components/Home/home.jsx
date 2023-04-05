@@ -1,81 +1,101 @@
-import { useEffect } from "react";
-
+import { useEffect, useState } from "react";
 import {connect} from "react-redux"
 import { useDispatch } from "react-redux";
 import {getAllPokemons,filteredPokemons, orderedPokemons} from "../../redux/actions"
-
 import Card from "../Card/card"
+
+
 function Home(props) {
-
-  const types = [
-		{ value: 'All', label: 'Todos'},
-    { value: 'Normal', label: 'Normal'},
-		{ value: 'Fighting', label: 'Fighting'},
-		{ value: 'Flying', label: 'Flying'},
-		{ value: 'Poison', label: 'Poison'},
-		{ value: 'Ground', label: 'Ground'},
-		{ value: 'Rock', label: 'Rock'},
-		{ value: 'Bug', label: 'Bug'},
-		{ value: 'Ghost', label: 'Ghost'},
-		{ value: 'Steel', label: 'Steel'},
-		{ value: 'Fire', label: 'Fire'},
-		{ value: 'Water', label: 'Water'},
-		{ value: 'Grass', label: 'Grass'},
-		{ value: 'Electric', label: 'Electric'},
-		{ value: 'Psychic', label: 'Psychic'},
-		{ value: 'Ice', label: 'Ice'},
-		{ value: 'Dragon', label: 'Dragon'},
-		{ value: 'Dark', label: 'Dark'},
-		{ value: 'Fairy', label: 'Fairy'},
-		{ value: 'Unknown', label: 'Unknown'},
-		{ value: 'Shadow', label: 'Shadow'}
-	];
-  const origins = [
-		{ value: 'Any', label: 'Todos'},
-    { value: 'Normal', label: 'Normal'},
-		{ value: 'Fighting', label: 'Fighting'},
-	];
-  const orders = [
-		{ value: 'NoOrder', label: 'Todos'},
-    { value: 'A-Z', label: 'A-Z'},
-		{ value: 'Z-A', label: 'Z-A'},
-    { value: 'Asc', label: '+DAÑO'},
-		{ value: 'Desc', label: '-DAÑO'},
-	];
-
     const dispatch = useDispatch();
+    const [typeFilter, setTypeFilter] = useState("All");
+    const [originFilter, setOriginFilter] = useState("Any");
+    const [alphabeticOrder, setAlphabeticOrder] = useState('NoOrder');
+    const [attackOrder, setAttackOrder] = useState('NoOrder');
+    const [pokemonList, setPokemonList] = useState([]);
+    const [orderedList, setOrderedList] = useState([]);
+
     useEffect(() => {
-      dispatch(getAllPokemons());
-      dispatch(filteredPokemons())
+      dispatch(getAllPokemons())
+       //evita que se haga el dispatch de filteredPokemons antes de tener los pokemones
+      .then(() => {
+        dispatch(filteredPokemons())
+      });
     }, [dispatch]);
-    const handleFilterChange =(event)=>{
-      const {name, value}= event.target
-      dispatch(filteredPokemons({[name]:value}))
-    }
-    const handleOrderChange =(event)=>{
-      const {name, value}= event.target
-      dispatch(orderedPokemons({[name]:value}))
-    }
+
+    useEffect(() => {
+      setPokemonList([...props.filteredPokemons]);
+    }, [props.filteredPokemons]);
+
+    const handleTypeFilterChange = (event) => {
+      setTypeFilter(event.target.value);
+      dispatch(filteredPokemons({ type: event.target.value, origin: originFilter }));
+      if(alphabeticOrder !== "NoOrder")
+      dispatch(orderedPokemons(alphabeticOrder))
+      if(attackOrder !== "NoOrder")
+      dispatch(orderedPokemons(attackOrder))
+    };
+  
+    const handleOriginFilterChange = (event) => {
+      setOriginFilter(event.target.value);
+      dispatch(filteredPokemons({ type: typeFilter, origin: event.target.value }));
+      if(alphabeticOrder !== "NoOrder")
+      dispatch(orderedPokemons(alphabeticOrder))
+      if(attackOrder !== "NoOrder")
+      dispatch(orderedPokemons(attackOrder))
+    };
+    useEffect(() => {
+     
+      setOrderedList(props.orderedPokemons);
+    }, [props.orderedPokemons]);
+
+    const handleAlfabeticOrderChange = (event) => {
+      dispatch(orderedPokemons(event.target.value))
+      setAlphabeticOrder(event.target.value)
+      setAttackOrder('NoOrder')
+      dispatch(filteredPokemons({ type: typeFilter, origin: originFilter }));
+    };
+    const handleAttackOrderChange = (event) => {
+      dispatch(orderedPokemons(event.target.value))
+      setAttackOrder(event.target.value)
+      setAlphabeticOrder('NoOrder')
+    };
+   
     return (
       <div >
+        <label htmlFor="">Filtrar por Tipo:</label>
         <select className='filter' name="type" id="typeFilter"
-        onChange={handleFilterChange} options={types} defaultValue="All">  
-        Filtrar por Tipo:
+        onChange={handleTypeFilterChange} defaultValue="All">
+          <option value="All">Todos</option>
+          <option value="Normal">Normal</option>
+          <option value="Fighting">Fighting</option>
+          <option value="Flying">Flying</option>  
         </select>
+
+        <label htmlFor="">Filtrar por Origen:  </label>
         <select className='filter' name="origin" id="originFilter"
-        onChange={handleFilterChange} options={origins} defaultValue="Any">
-          Filtrar por Origen:  
+        onChange={handleOriginFilterChange} defaultValue="Any">
+          <option value="Any">Todos</option>
+          <option value="Api">Api</option>
+          <option value="Database">Base de datos</option>
         </select>
-        <select className='filter' name="order" id="orderName"
-        onChange={handleOrderChange} options={orders} defaultValue="NoOrder">  
-        Ordenar Alfabeticamente:
+
+        <label htmlFor="">Ordenar Alfabeticamente:  </label>
+        <select className='filter' name="orderName" value={alphabeticOrder}
+        onChange={handleAlfabeticOrderChange} defaultValue="NoOrder">  
+        <option value="NoOrder">No ordenar</option>
+        <option value="A-Z">A-Z</option>
+          <option value="Z-A">Z-A</option>
         </select>
-        <select className='filter' name="order" id="orderAttack"
-        onChange={handleOrderChange} options={orders} defaultValue="NoOrder">  
-        Ordenar por Ataque:
+        <label htmlFor="">Ordenar por Ataque:  </label>
+        <select className='filter' name="orderAttack" value={attackOrder}
+        onChange={handleAttackOrderChange} defaultValue="NoOrder">  
+         <option value="NoOrder">No ordenar</option>
+        <option value="Asc">Menor a mayor</option>
+          <option value="Desc">Mayor a menor</option>
         </select>
       
-      {props.allPokemons.map((pokemon)=>{
+      {orderedList.length >0 ?
+      orderedList.map((pokemon)=>{
         return(
           <div key={pokemon.id}>
          <Card id={pokemon.id} name={pokemon.name} image={pokemon.image} 
@@ -83,7 +103,16 @@ function Home(props) {
          />
         </div>
         )
-      })}
+      })
+        : pokemonList.map((pokemon)=>{
+          return(
+            <div key={pokemon.id}>
+           <Card id={pokemon.id} name={pokemon.name} image={pokemon.image} 
+           types={pokemon.types}
+           />
+          </div>
+          )
+        })}
       </div>
     )
      
@@ -93,7 +122,8 @@ function Home(props) {
   const mapStateToProps = (state) => {
     return {
       allPokemons: state.allPokemons,
-      filteredPokemons: state.filteredPokemons
+      filteredPokemons: state.filteredPokemons,
+      orderedPokemons: state.orderedPokemons,
     };
   };
   

@@ -1,3 +1,4 @@
+
 import { GET_ALL_POKEMONS, GET_POKEMON_DETAIL, GET_POKEMON_NAME, POST_POKEMON, FILTERED_POKEMONS,ORDERED_POKEMONS } from "./actionstype";
 
 const initialState= {
@@ -61,25 +62,36 @@ const reducer = (state= initialState, action)=>{
             return "No se encontraron pokemones con ese tipo u origen"})
             }
         }
-        case ORDERED_POKEMONS:{
-            let orderedPokemons = [...state.filteredPokemons]
-            if (action.payload === 'A-Z') {
-                orderedPokemons.sort((a, b) => a.name.localeCompare(b.name));
+        case ORDERED_POKEMONS: {
+            if (action.payload === 'NoOrder') {
+                return {
+                    ...state,
+                    orderedPokemons: []
+                };
+              }
+            let orderPokemons = [...state.filteredPokemons]; // Clonamos el array filtrado
+            switch (action.payload) {
+              case 'A-Z':
+                orderPokemons.sort((a, b) => a.name.localeCompare(b.name));
+                break;
+              case 'Z-A':
+                orderPokemons.sort((a, b) => b.name.localeCompare(a.name));
+                break;
+              case 'Asc':
+                orderPokemons.sort((a, b) => a.attack - b.attack);
+                break;
+              case 'Desc':
+                orderPokemons.sort((a, b) => b.attack - a.attack);
+                break;
+              default:
+                break;
             }
-            if (action.payload === 'Z-A') {
-                orderedPokemons.sort((a, b) => b.name.localeCompare(a.name));
-            }
-            if (action.payload === 'Asc') {
-                orderedPokemons.sort((a, b) => a.attack - b.attack);
-            }
-            if (action.payload === 'Desc') {
-                orderedPokemons.sort((a, b) => a.attack - b.attack);
-            }
-            return{
-                ...state,
-                orderedPokemons: orderedPokemons
-            }
-        }
+            return {
+              ...state,
+              orderedPokemons: [...orderPokemons], 
+             
+            };
+          }
         default: {
        return state  
     }
