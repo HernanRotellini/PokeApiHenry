@@ -1,11 +1,35 @@
-
+const multer = require('multer');
+const path = require('path');
 const {Pokemon,Type} = require("../db");
+
+// Configuración de Multer
+const storage = multer.diskStorage({
+  destination: function(req, file, cb) {
+    cb(null, '/PI-Pokemon-main/imagenes');
+  },
+  filename: function(req, file, cb) {
+    cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+  }
+});
+
+const upload = multer({ storage: storage }).single('image');;
+
 
 
 async function createPokemon(req, res) {
     try {
-    const { id, name, stats, sprites, height, weight } = req.body;
-    const { front_default } = sprites;
+      upload(req, res,async function (err) {
+        if (err) {
+          // Manejar el error si la carga de la imagen falla
+          console.error(err);
+          return res.status(500).send('Error al cargar la imagen.');
+        }
+      
+        // Si se cargó la imagen con éxito, obtener su ruta
+        const imagePath = req.file.path;
+      })   
+    const { id, name, stats, height, weight } = req.body;
+    //const { front_default } = sprites;
     const hp = stats.find((stat) => stat.stat.name === 'hp').base_stat;
     const attack = stats.find((stat) => stat.stat.name === 'attack').base_stat;
     const defense = stats.find((stat) => stat.stat.name === 'defense').base_stat;
@@ -31,7 +55,7 @@ for (let type of types) {
       const pokemon = await Pokemon.create({
         id:id,
         name:name,
-        image: front_default,
+        image: imagePath,
         hp:hp,
         attack:attack,
         defense:defense,
@@ -39,6 +63,7 @@ for (let type of types) {
         height:heightString,
         weight:weightString,
       });
+    
       await pokemon.addTypes(foundTypes);
       res.status(201).json(pokemon);
     } catch (error) {

@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import { useEffect, useState } from "react";
 import {connect} from "react-redux"
 import { useDispatch } from "react-redux";
@@ -13,7 +14,26 @@ function Home(props) {
     const [attackOrder, setAttackOrder] = useState('NoOrder');
     const [pokemonList, setPokemonList] = useState([]);
     const [orderedList, setOrderedList] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [pageSize, setPageSize] = useState(12);
 
+    const getPokemonsByPage = (pokemons, pageNumber, pageSize) => {
+        const startIndex = (pageNumber - 1) * pageSize;
+        const endIndex = startIndex + pageSize;
+        return pokemons.slice(startIndex, endIndex);
+      };
+      const orderedListPages = getPokemonsByPage(orderedList, currentPage, pageSize);
+      const filteredListPages = getPokemonsByPage(pokemonList, currentPage, pageSize);
+      const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+      };
+      
+      const pageCount = Math.ceil(pokemonList.length / pageSize);
+      const pages = [];
+    for (let i = 1; i <= pageCount; i++) {
+    pages.push(i);
+    }
+   
     useEffect(() => {
       dispatch(getAllPokemons())
        //evita que se haga el dispatch de filteredPokemons antes de tener los pokemones
@@ -95,7 +115,7 @@ function Home(props) {
         </select>
       
       {orderedList.length >0 ?
-      orderedList.map((pokemon)=>{
+      orderedListPages.map((pokemon)=>{
         return(
           <div key={pokemon.id}>
          <Card id={pokemon.id} name={pokemon.name} image={pokemon.image} 
@@ -104,7 +124,7 @@ function Home(props) {
         </div>
         )
       })
-        : pokemonList.map((pokemon)=>{
+        : filteredListPages.map((pokemon)=>{
           return(
             <div key={pokemon.id}>
            <Card id={pokemon.id} name={pokemon.name} image={pokemon.image} 
@@ -113,6 +133,19 @@ function Home(props) {
           </div>
           )
         })}
+         <nav>
+        <ul className="pagination">
+          {pages.map((page) => (
+            // eslint-disable-next-line react/jsx-no-comment-textnodes
+            <button key={page} className={page === currentPage ? "page-item active" : "page-item"}>
+              
+              <a className="page-link" onClick={() => handlePageChange(page)}>
+                {page}
+              </a>
+            </button>
+          ))}
+        </ul>
+      </nav>
       </div>
     )
      
