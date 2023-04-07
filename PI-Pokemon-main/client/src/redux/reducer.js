@@ -1,11 +1,12 @@
 
-import { GET_ALL_POKEMONS, GET_POKEMON_DETAIL, GET_POKEMON_NAME, POST_POKEMON, FILTERED_POKEMONS,ORDERED_POKEMONS } from "./actionstype";
+import { GET_ALL_POKEMONS, GET_POKEMON_DETAIL, GET_POKEMON_NAME, POST_POKEMON, FILTERED_POKEMONS,ORDERED_POKEMONS, ALL_TYPES } from "./actionstype";
 
 const initialState= {
 allPokemons:[],
 pokemonDetail:{},
 orderedPokemons:[],
 filteredPokemons:[],
+allTypes: [],
 }
 
 const reducer = (state= initialState, action)=>{
@@ -91,7 +92,15 @@ const reducer = (state= initialState, action)=>{
               orderedPokemons: [...orderPokemons], 
              
             };
-          }
+        }
+            case ALL_TYPES:
+                {
+                return {
+                    ...state,
+                    allTypes: action.payload
+                }
+            }
+          
         default: {
        return state  
     }

@@ -1,4 +1,5 @@
-import { GET_ALL_POKEMONS, GET_POKEMON_DETAIL,GET_POKEMON_NAME, POST_POKEMON, FILTERED_POKEMONS,ORDERED_POKEMONS } from "./actionstype";
+import { GET_ALL_POKEMONS, GET_POKEMON_DETAIL,GET_POKEMON_NAME, 
+  POST_POKEMON, FILTERED_POKEMONS,ORDERED_POKEMONS, ALL_TYPES } from "./actionstype";
 import axios from "axios"
 
 export const getAllPokemons = () => {
@@ -33,18 +34,23 @@ export const getAllPokemons = () => {
     };
   };
 
-  export const postPokemon = (pokemon) => {
+  export const postPokemon = (pokemon,image) => {
     return async (dispatch) => {
       try {
-         await axios.post("http://localhost:3001/pokemons", {
+        console.log(pokemon);
+        const formData = new FormData();
+      formData.append("data", JSON.stringify(pokemon));
+      formData.append("image", image);
+      
+       const response = await axios.post("http://localhost:3001/pokemons", formData,{
           method: "post",
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "multipart/form-data",
           },
-          body: JSON.stringify(pokemon),
+         
         });
         
-        dispatch({ type: POST_POKEMON, payload: pokemon});
+        dispatch({ type: POST_POKEMON, payload: response.data});
       } catch (error) {
         console.error(error);
       }
@@ -61,3 +67,13 @@ export const getAllPokemons = () => {
       dispatch({type: ORDERED_POKEMONS, payload: order})
     }
   }
+  export const loadTypes=()=>{
+    return async (dispatch)=>{
+      try {
+        const response = await axios.get(`http://localhost:3001/types`)
+       return dispatch({ type: ALL_TYPES, payload: response.data });
+     } catch (error) {
+       console.error(error);
+     }
+  }
+}

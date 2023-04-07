@@ -1,8 +1,8 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { useEffect, useState } from "react";
 import {connect} from "react-redux"
-import { useDispatch } from "react-redux";
-import {getAllPokemons,filteredPokemons, orderedPokemons} from "../../redux/actions"
+import { useDispatch, useSelector } from "react-redux";
+import {getAllPokemons,filteredPokemons, orderedPokemons, loadTypes} from "../../redux/actions"
 import Card from "../Card/card"
 
 
@@ -16,7 +16,7 @@ function Home(props) {
     const [orderedList, setOrderedList] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [pageSize, setPageSize] = useState(12);
-
+    const types = useSelector(state => state.allTypes)
     const getPokemonsByPage = (pokemons, pageNumber, pageSize) => {
         const startIndex = (pageNumber - 1) * pageSize;
         const endIndex = startIndex + pageSize;
@@ -35,6 +35,7 @@ function Home(props) {
     }
    
     useEffect(() => {
+      dispatch(loadTypes())
       dispatch(getAllPokemons())
        //evita que se haga el dispatch de filteredPokemons antes de tener los pokemones
       .then(() => {
@@ -83,13 +84,11 @@ function Home(props) {
     return (
       <div >
         <label htmlFor="">Filtrar por Tipo:</label>
-        <select className='filter' name="type" id="typeFilter"
-        onChange={handleTypeFilterChange} defaultValue="All">
-          <option value="All">Todos</option>
-          <option value="Normal">Normal</option>
-          <option value="Fighting">Fighting</option>
-          <option value="Flying">Flying</option>  
-        </select>
+<select className='filter' name="type" id="typeFilter" onChange={handleTypeFilterChange} defaultValue="All">
+  <option value="All">Todos</option>
+  {types ? types.map(type => <option value={type.name} key={type.id}>{type.name}</option>) 
+  : null}
+</select>
 
         <label htmlFor="">Filtrar por Origen:  </label>
         <select className='filter' name="origin" id="originFilter"
