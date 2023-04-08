@@ -6,10 +6,11 @@ const {Pokemon,Type} = require("../db");
 // Configuración de Multer
 const storage = multer.diskStorage({
   destination: function(req, file, cb) {
-    cb(null, 'C:/Proyectos/PokeApiHenry/PI-Pokemon-main/imagenes');
+    cb(null, 'C:/Proyectos/PokeApiHenry/PI-Pokemon-main/api/src/images');
   },
   filename: function(req, file, cb) {
-    cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+    const filename = file.fieldname + '-' + Date.now() + path.extname(file.originalname);
+    cb(null, filename.replace(/\\/g, '/'));
   }
 });
 
@@ -24,19 +25,21 @@ const upload = multer({
 
 async function createPokemon(req, res) {
     try {
+     
       console.log(req.body);
       upload(req, res,async function (err) {
         if (err) {
-          // Manejar el error si la carga de la imagen falla
           console.error(err);
           return res.status(500).send('Error al cargar la imagen.');
         }
-        
+       
         // Si se cargó la imagen con éxito, obtener su ruta
         const imagePath = req.file.path;
-        // Obtener el objeto pokemon del cuerpo de la solicitud
+         const transformedPath = imagePath.replace(/\\/g, "/");
+        // Obtiene los datos del pokemon del cuerpo de la solicitud 
+        //y lo convierte de Json a un objeto
         const pokemon = JSON.parse(req.body.data);
-        console.log(pokemon.types);
+        
         const heightString = pokemon.height + "ft";
         const weightString = pokemon.weight + "lb";
         const foundTypes = [];
@@ -51,10 +54,10 @@ async function createPokemon(req, res) {
           }
         }
         
-        
+        //Setea los valores de cada propiedad y crea el pokemon en la bd
         const newPokemon = await Pokemon.create({
           name:pokemon.name,
-          image: imagePath,
+          image: transformedPath,
           hp:pokemon.hp,
           attack:pokemon.attack,
           defense:pokemon.defense,
@@ -63,9 +66,13 @@ async function createPokemon(req, res) {
           weight:weightString,
           types: foundTypes.map(type => type.name)
         });
+        //Llena la tabla intermedia de tipos, tomando el id del pokemon y el id de cada type
         await newPokemon.addTypes(foundTypes);
        
-        res.status(201).json(newPokemon);
+        res.status(201).json({
+          pokemon: newPokemon,
+          imagePath: imagePath
+        });
       })
     } catch (error) {
         console.log(error);

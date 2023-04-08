@@ -16,6 +16,7 @@ module.exports = (sequelize) => {
     image: {
       type: DataTypes.TEXT,
       allowNull: false,
+      defaultValue: "../images/tarjetapokemondefault.jpg"
     },
     hp: {
       type: DataTypes.INTEGER,

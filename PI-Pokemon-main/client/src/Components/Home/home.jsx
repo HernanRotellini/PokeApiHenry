@@ -15,7 +15,7 @@ function Home(props) {
     const [pokemonList, setPokemonList] = useState([]);
     const [orderedList, setOrderedList] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [pageSize, setPageSize] = useState(12);
+    const [pageSize] = useState(12);
     const types = useSelector(state => state.allTypes)
     const getPokemonsByPage = (pokemons, pageNumber, pageSize) => {
         const startIndex = (pageNumber - 1) * pageSize;

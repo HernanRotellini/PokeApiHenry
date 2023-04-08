@@ -28,6 +28,8 @@ server.use((req, res, next) => {
   res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
   next();
 });
+// Sirve los archivos estáticos desde la carpeta public
+server.use('/images', express.static('./images'));
 
 server.use('/pokemons', routes);
 server.use('/types', typerouter)

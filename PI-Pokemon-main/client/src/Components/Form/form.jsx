@@ -1,4 +1,4 @@
-//import { validate } from "./validation";
+import { validate } from "./validate";
 
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,10 +13,10 @@ const dispatch = useDispatch()
     const types = useSelector(state=> state.allTypes)
     const [newPokemon, setNewPokemon] = useState({ name: "", hp: 0, attack: 0, defense: 0, speed: 0, height: 0, weight: 0, types: ""});
     const [image, setImage] = useState(null);
-  //  const [errors, setErrors] = useState();
+   const [errors, setErrors] = useState();
   const onChange = (event)=>{
-    const { name } = event.target;
-    const value = name === "image" ? event.target.files[0] : event.target.value;
+    const { name, value } = event.target;
+    
     setNewPokemon({...newPokemon, [name]:value})
   }
     const handleImageChange = (event) => {
@@ -35,8 +35,10 @@ const dispatch = useDispatch()
     };
     function onSubmit(event) {
         event.preventDefault();
-      //  const errors = validate(postPokemon);
-       // setErrors(errors);
+        const error = validate(newPokemon);
+        setErrors(error);
+        
+        if (Object.keys(errors).length === 0) {
        const pokemon = {
         name: newPokemon.name,
         hp: newPokemon.hp,
@@ -47,7 +49,9 @@ const dispatch = useDispatch()
         weight: newPokemon.weight,
         types: newPokemon.types,
       };
+    
       dispatch(postPokemon(pokemon, image));
+    }
     };
       
       

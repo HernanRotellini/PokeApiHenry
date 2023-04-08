@@ -37,7 +37,7 @@ export const getAllPokemons = () => {
   export const postPokemon = (pokemon,image) => {
     return async (dispatch) => {
       try {
-        console.log(pokemon);
+        console.log(pokemon, image);
         const formData = new FormData();
       formData.append("data", JSON.stringify(pokemon));
       formData.append("image", image);
