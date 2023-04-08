@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 import {connect} from "react-redux"
 import { useDispatch, useSelector } from "react-redux";
 import {getAllPokemons,filteredPokemons, orderedPokemons, loadTypes} from "../../redux/actions"
-import Card from "../Card/card"
-
+import Card from "../Card/card";
+import style from "./home.module.css";
 
 function Home(props) {
     const dispatch = useDispatch();
@@ -83,6 +83,7 @@ function Home(props) {
    
     return (
       <div >
+        <div className={style.gameboyfont}>
         <label htmlFor="">Filtrar por Tipo:</label>
 <select className='filter' name="type" id="typeFilter" onChange={handleTypeFilterChange} defaultValue="All">
   <option value="All">Todos</option>
@@ -112,7 +113,9 @@ function Home(props) {
         <option value="Asc">Menor a mayor</option>
           <option value="Desc">Mayor a menor</option>
         </select>
-      
+        <br /><br />
+        </div>
+      <div className={style.cards}>
       {orderedList.length >0 ?
       orderedListPages.map((pokemon)=>{
         return(
@@ -132,6 +135,7 @@ function Home(props) {
           </div>
           )
         })}
+        </div>
          <nav>
         <ul className="pagination">
           {pages.map((page) => (

@@ -34,23 +34,34 @@ export const getAllPokemons = () => {
     };
   };
 
-  export const postPokemon = (pokemon,image) => {
+  export const postPokemon = (pokemon) => {
     return async (dispatch) => {
       try {
-        console.log(pokemon, image);
-        const formData = new FormData();
-      formData.append("data", JSON.stringify(pokemon));
-      formData.append("image", image);
-      
-       const response = await axios.post("http://localhost:3001/pokemons", formData,{
-          method: "post",
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-         
-        });
-        
-        dispatch({ type: POST_POKEMON, payload: response.data});
+          const response = await axios.post(
+            "http://localhost:3001/pokemons",
+            pokemon,
+            {
+              headers: {
+                'Content-Type': 'application/json'
+              },
+            }
+          );
+          dispatch({ type: POST_POKEMON, payload: response.data });
+        // else {
+        //   const formData = new FormData();
+        //   formData.append("data", JSON.stringify(pokemon));
+        //   formData.append("image", image);
+        //   const response = await axios.post(
+        //     "http://localhost:3001/pokemons",
+        //     formData,
+        //     {
+        //       headers: {
+        //         "Content-Type": "multipart/form-data",
+        //       },
+        //     }
+        //   );
+        //   dispatch({ type: POST_POKEMON, payload: response.data });
+        // }
       } catch (error) {
         console.error(error);
       }

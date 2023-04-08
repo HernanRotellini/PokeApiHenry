@@ -1,0 +1,13 @@
+.cards{
+    display: flex;
+    margin: auto;
+    flex-wrap: wrap;
+}
+
+
+  
+  .gameboyfont {
+    font-family: 'Press Start 2P', cursive;
+  font-size: 20px;  
+  letter-spacing: 1px; 
+  }
