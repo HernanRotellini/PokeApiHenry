@@ -1,0 +1,9 @@
+.fondoDetail{
+        height: 100vh;
+        overflow: hidden;
+        text-align: center;
+      background-image: url("https://i.postimg.cc/CMtbpB6q/pokeBack.jpg");
+      background-repeat: no-repeat;
+      background-size: cover;
+      
+}

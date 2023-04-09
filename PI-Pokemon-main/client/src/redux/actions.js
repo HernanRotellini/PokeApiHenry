@@ -32,7 +32,6 @@ export const getAllPokemons = () => {
         if(response.data.length>35){
         alert("No se encontraron pokemones con ese nombre")
        }
-       
       } catch (error) {
         console.error(error);
       }
