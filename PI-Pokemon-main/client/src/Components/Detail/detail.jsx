@@ -2,7 +2,8 @@ import { useEffect } from "react";
 import {connect} from "react-redux"
 import { useDispatch } from "react-redux";
 import {getPokemonDetail} from "../../redux/actions"
-import { useParams} from "react-router-dom";
+import { useParams, Link} from "react-router-dom";
+
 function Detail(props) {
     const dispatch = useDispatch()
     const {idPokemon}= useParams()
@@ -11,7 +12,7 @@ function Detail(props) {
     },[dispatch,idPokemon])
     const {pokemonDetail} = props;
     return (
-        
+        <div>
             <div key={pokemonDetail.id}>
                
             {pokemonDetail.image ? <img src={pokemonDetail.image} alt="" />: <h2>No se encontro imagen</h2>}
@@ -29,8 +30,12 @@ function Detail(props) {
             <h2>Height: {pokemonDetail.height}</h2>
             </div>
               
-            
-        
+            <div>
+              <Link to="/home">
+              <button></button>
+              </Link>
+            </div>
+            </div>
     );
  
   }

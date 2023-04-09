@@ -3,24 +3,26 @@ import { Link } from "react-router-dom";
 import { getAllPokemons, getPokemonName } from "../../redux/actions";
 import { useDispatch } from "react-redux";
 export default function SearchBar(props) {
-   const { handleResetFilters } = props;
+   
    const [pokemonName, setPokemonName] = useState('');
    const dispatch = useDispatch()
 
    const onchange = ((event)=>{
      setPokemonName(event.target.value);
    });
- 
+   const handleKeyPress = (event) => {
+      if(event.key === 'Enter'){
+          findByName(event)
+      }
+    }
    const findByName = async () => {
-       // resetear los estados de filtro
-     await handleResetFilters();
-     dispatch(getPokemonName(pokemonName));
-     
-   };
+      // Obtener el Pokémon por su nombre utilizando dispatch
+      await  dispatch(getPokemonName(pokemonName));
+
+    };
  
    const goHome = async () => {
-       // resetear los estados de filtro
-     await handleResetFilters();
+     setPokemonName('')
      dispatch(getAllPokemons());
      
    };
@@ -28,8 +30,8 @@ export default function SearchBar(props) {
    return (
       
       <div>
-         <input type='search' onChange={onchange} value={pokemonName}/>
-         <button onClick={findByName}>Buscar</button>
+         <input onKeyDown={handleKeyPress} type='search' onChange={onchange} value={pokemonName}/>
+         <button onClick={findByName} >Buscar</button>
          <br />
          <br />
          <Link to="/home">
