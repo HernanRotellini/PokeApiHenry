@@ -26,9 +26,7 @@ const upload = multer({
 async function createPokemon(req, res) {
     try {
       const {name,image,hp,attack,defense,speed,weight,height,types} = req.body
-      
-        
-        
+
         const heightString = height + "ft";
         const weightString = weight + "lb";
         const foundTypes = [];

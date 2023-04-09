@@ -17,10 +17,9 @@ function Card(props) {
               
               <div>
               {props.types?
-         
-            props.types.map((type,i) => {
-             return <h4 key={i}>{type}</h4>;
-            }): <h2>Unknown</h2>
+              props.types.map((type,i) => {
+              return <h4 key={i}>{type}</h4>;
+              }): <h2>Unknown</h2>
             
         }
         </div>

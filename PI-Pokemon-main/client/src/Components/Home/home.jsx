@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {getAllPokemons,filteredPokemons, orderedPokemons, loadTypes} from "../../redux/actions"
 import Card from "../Card/card";
 import style from "./home.module.css";
-
+import SearchBar from "../SearchBar/searchBar";
 function Home(props) {
     const dispatch = useDispatch();
     const [typeFilter, setTypeFilter] = useState("All");
@@ -33,7 +33,12 @@ function Home(props) {
     for (let i = 1; i <= pageCount; i++) {
     pages.push(i);
     }
-   
+    const handleResetFilters = () => {
+      setTypeFilter("All");
+      setOriginFilter("Any");
+      setAlphabeticOrder('NoOrder');
+      setAttackOrder('NoOrder');
+    };
     useEffect(() => {
       dispatch(loadTypes())
       dispatch(getAllPokemons())
@@ -49,6 +54,7 @@ function Home(props) {
 
     const handleTypeFilterChange = (event) => {
       setTypeFilter(event.target.value);
+    
       dispatch(filteredPokemons({ type: event.target.value, origin: originFilter }));
       if(alphabeticOrder !== "NoOrder")
       dispatch(orderedPokemons(alphabeticOrder))
@@ -83,6 +89,13 @@ function Home(props) {
    
     return (
       <div >
+           <div>
+      <SearchBar
+        handleTypeFilter={setTypeFilter}
+        handleOriginFilter={setOriginFilter}
+        handleResetFilters={handleResetFilters}
+      />
+      </div>
         <div className={style.gameboyfont}>
         <label htmlFor="">Filtrar por Tipo:</label>
 <select className='filter' name="type" id="typeFilter" onChange={handleTypeFilterChange} defaultValue="All">

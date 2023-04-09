@@ -35,10 +35,27 @@ const getPokemonbyId = async (req, res) => {
       where: {
         id: idPokemon,
       },
-     
+      include: [{ 
+        model: Type, 
+       }],
     });
-    if(poke){
-      res.json(poke);
+   
+    const dbpokemonDetail= {
+      name: poke.name,
+      image: poke.image,
+      hp: poke.hp,
+      attack: poke.attack,
+      defense: poke.defense,
+      speed: poke.speed,
+      weight: poke.weight,
+      height: poke.height,
+      types: poke.Types?.map((type) => {
+        const typeName = type.name.charAt(0).toUpperCase() + type.name.slice(1);
+      return typeName})
+    }
+  
+    if(dbpokemonDetail){
+      res.json(dbpokemonDetail);
     }else{
     res.status(500).json({ message: 'Internal server error' });
   }}

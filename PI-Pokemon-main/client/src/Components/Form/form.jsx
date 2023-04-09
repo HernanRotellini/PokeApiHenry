@@ -11,7 +11,7 @@ const dispatch = useDispatch()
   },[dispatch])
     const types = useSelector(state=> state.allTypes)
     const [newPokemon, setNewPokemon] = useState({ name: "", hp: 0, attack: 0, defense: 0, 
-    types: [], image: ""});
+    types: '', image: ""});
     //const [image, setImage] = useState(null);
    const [errors, setErrors] = useState({});
   const onChange = (event)=>{
