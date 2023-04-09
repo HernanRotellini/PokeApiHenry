@@ -5,24 +5,18 @@ import { useDispatch } from "react-redux";
 export default function SearchBar(props) {
     const dispatch = useDispatch()
    const [pokemonName, setPokemonName] = useState('')
-
-
+   
    const onchange = ((event)=>{
    setPokemonName(event.target.value)
    
 })
 const findByName = async () => {
-    
-    if(pokemonName){
-    await dispatch(getPokemonName(pokemonName));
-    }
+  
 
-    
-    if(dispatch(getPokemonName(pokemonName))){ 
-      await  dispatch(getAllPokemons())
-     
-    }
-  };
+ dispatch(getPokemonName(pokemonName));
+
+  
+ };
   
   const goHome =  () => {
      dispatch(getAllPokemons());

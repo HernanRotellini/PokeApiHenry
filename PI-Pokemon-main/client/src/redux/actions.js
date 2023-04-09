@@ -26,10 +26,10 @@ export const getAllPokemons = () => {
   export const getPokemonName = (name) => {
     return async (dispatch) => {
       try {
-        console.log(name);
+       
         const response = await axios.get(`http://localhost:3001/pokemons/name?name=${name}`);
        
-        return dispatch({ type: GET_POKEMON_NAME, payload: response.data });
+        return dispatch({ type: GET_POKEMON_NAME, payload: { name: name, data: response.data } });
       } catch (error) {
         console.error(error);
       }
