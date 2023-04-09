@@ -7,6 +7,7 @@ pokemonDetail:{},
 orderedPokemons:[],
 filteredPokemons:[],
 allTypes: [],
+
 }
 
 const reducer = (state= initialState, action)=>{
@@ -15,6 +16,7 @@ const reducer = (state= initialState, action)=>{
             return {
                 ...state, 
                 allPokemons : action.payload,
+                filteredPokemons: [...state.allPokemons]
             }
         }
         case GET_POKEMON_DETAIL:{
@@ -24,10 +26,18 @@ const reducer = (state= initialState, action)=>{
             }
         }
         case GET_POKEMON_NAME:{
-            return{
-                ...state,
-                filteredPokemons: state.allPokemons.filter((poke) =>{return poke.name === action.payload.name})
+            if(action.payload){
+                return{
+                    ...state,
+                    filteredPokemons: state.allPokemons.filter((poke) => poke.name.toLowerCase() === action.payload[0].name.toLowerCase())
+                }
+            }else{
+                return{
+                    ...state,
+                    filteredPokemons: state.allPokemons
+                }
             }
+          
         }
         case POST_POKEMON:{
             return{
