@@ -27,8 +27,8 @@ export const validate = (pokemon) => {
     }
     if(pokemon.types.length===0){
     errors.types = 'Debe seleccionar al menos 1';
-    }else if(pokemon.types.length<2)
-    errors.types = 'Puede tener 2 tipos como máximo';
+    }else if(pokemon.types.length>2)
+    errors.types = 'No puede tener más de 2 tipos';
     return errors;
   };
   

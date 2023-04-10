@@ -2,7 +2,8 @@ import { validate } from "./validate";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loadTypes, postPokemon } from "../../redux/actions";
-import {Link} from "react-router-dom"
+import {NavLink} from "react-router-dom"
+import style from './form.modules.css'
 function Form(props){
 const dispatch = useDispatch()
   useEffect(()=>{
@@ -10,8 +11,8 @@ const dispatch = useDispatch()
    
   },[dispatch])
     const types = useSelector(state=> state.allTypes)
-    const [newPokemon, setNewPokemon] = useState({ name: "", hp: 0, attack: 0, defense: 0, 
-    types: '', image: ""});
+    const [newPokemon, setNewPokemon] = useState({ name: "", hp: 0, attack: 0, 
+    defense: 0, types: '', image: ""});
     //const [image, setImage] = useState(null);
    const [errors, setErrors] = useState({});
   const onChange = (event)=>{
@@ -62,58 +63,61 @@ const dispatch = useDispatch()
       
       
     return (
-        <form onSubmit={onSubmit} encType="multipart/form-data">
-  <label htmlFor="name">Nombre:</label>
-  <input type="text" name="name" onChange={onChange} value={newPokemon.name} />
-  {errors.name && <div className="error">{errors.name}</div>}
-<br />
-  <label htmlFor="hp">HP:</label>
-  <input type="number" name="hp" onChange={onChange} value={newPokemon.hp} />
-  {errors.hp && <div className="error">{errors.hp}</div>}
-<br />
-  <label htmlFor="attack">Ataque:</label>
-  <input type="number" name="attack" onChange={onChange} value={newPokemon.attack} />
-  {errors.attack && <div className="error">{errors.attack}</div>}
-<br />
-  <label htmlFor="defense">Defensa:</label>
-  <input type="number" name="defense" onChange={onChange} value={newPokemon.defense} />
-  {errors.defense && <div className="error">{errors.defense}</div>}
-<br />
-  <label htmlFor="speed">Velocidad:</label>
-  <input type="number" name="speed" onChange={onChange} value={newPokemon.speed} />
-<br />
-  <label htmlFor="height">Altura:</label>
-  <input type="number" name="height" onChange={onChange} value={newPokemon.height} />
-<br />
-  <label htmlFor="weight">Peso:</label>
-  <input type="number" name="weight" onChange={onChange} value={newPokemon.weight} />
-  <br />
-  <label htmlFor="image">Imagen Url:</label>
-  <input type="text" name="image" onChange={onChange} value={newPokemon.image} />
-  {errors.image && <div className="error">{errors.image}</div>}
-  <br />
-  <label htmlFor="types">Tipos:</label>
-  <select name="types" id="types" onChange={onSelectChange} value={newPokemon.types} multiple>
-    {types.map(type => (
-        <option key={type.id} value={type.name}>
-            {type.name}
-        </option>
-    ))}
-</select>
-  {errors.types && <div className="error">{errors.types}</div>}
-  <br />
-
-  {/* <label htmlFor="image">Imagen:</label>
-  <input type="file" name="image" onChange={handleImageChange} />
-<br /> */}
-<Link to="/home">
-<button>Volver</button>
-</Link>
-<span>            </span>
-  <button type="submit">Crear Pokemon</button>
-
-</form>
-
+      <>
+        <h1>Crear Pokemon</h1>
+        <form onSubmit={onSubmit} encType="multipart/form-data" className={style.formContainer}>
+          <div class={style.columnLeft}>
+            <label htmlFor="name">Nombre:</label>
+            <input type="text" name="name" onChange={onChange} value={newPokemon.name} />
+            {errors.name && <div className="error">{errors.name}</div>}
+            <br />
+            <label htmlFor="height">Altura:</label>
+            <input type="number" name="height" onChange={onChange} value={newPokemon.height} />
+            <br />
+            <label htmlFor="weight">Peso:</label>
+            <input type="number" name="weight" onChange={onChange} value={newPokemon.weight} />
+            <br />
+            <label htmlFor="image">Imagen Url:</label>
+            <input type="text" name="image" onChange={onChange} value={newPokemon.image} />
+            {errors.image && <div className="error">{errors.image}</div>}
+            <br />
+            <label htmlFor="types">Tipos:</label>
+            <select name="types" id="types" onChange={onSelectChange} value={newPokemon.types} multiple>
+              {types.map(type => (
+                <option key={type.id} value={type.name}>
+                  {type.name}
+                </option>
+              ))}
+            </select>
+            {errors.types && <div className="error">{errors.types}</div>}
+            <br /><br />
+           
+          </div>
+          <div className={style.columnRight}>
+            <label htmlFor="hp">HP:</label>
+            <input type="number" name="hp" onChange={onChange} value={newPokemon.hp} />
+            {errors.hp && <div className="error">{errors.hp}</div>}
+            <br />
+            <label htmlFor="attack">Ataque:</label>
+            <input type="number" name="attack" onChange={onChange} value={newPokemon.attack} />
+            {errors.attack && <div className="error">{errors.attack}</div>}
+            <br />
+            <label htmlFor="defense">Defensa:</label>
+            <input type="number" name="defense" onChange={onChange} value={newPokemon.defense} />
+            {errors.defense && <div className="error">{errors.defense}</div>}
+            <br />
+            <label htmlFor="speed">Velocidad:</label>
+            <input type="number" name="speed" onChange={onChange} value={newPokemon.speed} />
+            <br />
+            
+           
+          </div>
+          <button type="submit">Crear Pokemon</button>
+          <NavLink to="/home">
+              <button>Volver</button>
+            </NavLink>
+        </form>
+      </>
     )
 }
 export default Form

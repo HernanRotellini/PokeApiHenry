@@ -40,6 +40,10 @@ function Card(props) {
                   typeClass = "Flying";
                   imgSrc= "https://i.postimg.cc/521NjRRs/Captura-de-pantalla-813-Cropped-11.png"
                   break;
+                  case "Fighting":
+                    typeClass = "Fighting";
+                    imgSrc= "https://i.postimg.cc/KYjbMSrD/Captura-de-pantalla-813-Cropped.png"
+                    break;
                 case "Poison":
                   typeClass = "Poison";
                   imgSrc="https://i.postimg.cc/xjz05Qrs/Captura-de-pantalla-813-Cropped-5.png"
