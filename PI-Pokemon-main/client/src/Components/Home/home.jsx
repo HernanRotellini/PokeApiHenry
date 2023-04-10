@@ -92,7 +92,7 @@ function Home(props) {
     };
    
     return (
-      <div >
+      <div>
            <div className="search-container">
       <SearchBar
         handleTypeFilter={setTypeFilter}
@@ -101,13 +101,13 @@ function Home(props) {
       />
       </div>
         <div className="filter-container">
-        <label htmlFor="">Filtrar por Tipo:</label>
+        <label className="labels" htmlFor="">Filtrar por Tipo:</label>
 <select className='filter' name="type" id="typeFilter" onChange={handleTypeFilterChange} defaultValue="All">
   <option value="All">Todos</option>
   {types ? types.map(type => <option value={type.name} key={type.id}>{type.name}</option>) 
   : null}
 </select>
-        <label htmlFor="">Filtrar por Origen:  </label>
+        <label className="labels" htmlFor="">Filtrar por Origen:  </label>
         <select className='filter' name="origin" id="originFilter"
         onChange={handleOriginFilterChange} defaultValue="Any">
           <option value="Any">Todos</option>
@@ -115,14 +115,14 @@ function Home(props) {
           <option value="Database">Base de datos</option>
         </select>
 
-        <label htmlFor="">Ordenar Alfabeticamente:  </label>
+        <label className="labels" htmlFor="">Ordenar Alfabeticamente:  </label>
         <select className='filter' name="orderName" value={alphabeticOrder}
         onChange={handleAlfabeticOrderChange} defaultValue="NoOrder">  
         <option value="NoOrder">No ordenar</option>
         <option value="A-Z">A-Z</option>
           <option value="Z-A">Z-A</option>
         </select>
-        <label htmlFor="">Ordenar por Ataque:  </label>
+        <label className="labels" htmlFor="">Ordenar por Ataque:  </label>
         <select className='filter' name="orderAttack" value={attackOrder}
         onChange={handleAttackOrderChange} defaultValue="NoOrder">  
          <option value="NoOrder">No ordenar</option>

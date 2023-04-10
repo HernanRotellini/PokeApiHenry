@@ -29,10 +29,11 @@ export default function SearchBar(props) {
          <button onClick={findByName}>Buscar</button>
          <br />
          <br />
+         <div className="mitad-rojo-gris">
             <Link to="/create">
             <button>Crear Pokemon</button>
             </Link>
-         
+            </div>
       </div>
      
    );
