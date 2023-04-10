@@ -16,6 +16,7 @@ function Home(props) {
     const [orderedList, setOrderedList] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [pageSize] = useState(12);
+    const [loading,setLoading]= useState(true)
     const types = useSelector(state => state.allTypes)
     const getPokemonsByPage = (pokemons, pageNumber, pageSize) => {
         const startIndex = (pageNumber - 1) * pageSize;
@@ -45,7 +46,9 @@ function Home(props) {
        //evita que se haga el dispatch de filteredPokemons antes de tener los pokemones
       .then(() => {
         dispatch(filteredPokemons())
-      });
+      }).then(
+        setLoading(false)
+      )
     }, [dispatch]);
 
     useEffect(() => {
@@ -89,21 +92,20 @@ function Home(props) {
    
     return (
       <div >
-           <div>
+           <div className="search-container">
       <SearchBar
         handleTypeFilter={setTypeFilter}
         handleOriginFilter={setOriginFilter}
         handleResetFilters={handleResetFilters}
       />
       </div>
-        <div className={style.gameboyfont}>
+        <div className="filter-container">
         <label htmlFor="">Filtrar por Tipo:</label>
 <select className='filter' name="type" id="typeFilter" onChange={handleTypeFilterChange} defaultValue="All">
   <option value="All">Todos</option>
   {types ? types.map(type => <option value={type.name} key={type.id}>{type.name}</option>) 
   : null}
 </select>
-
         <label htmlFor="">Filtrar por Origen:  </label>
         <select className='filter' name="origin" id="originFilter"
         onChange={handleOriginFilterChange} defaultValue="Any">
@@ -129,38 +131,62 @@ function Home(props) {
         <br /><br />
         </div>
       <div className={style.cards}>
-      {orderedList.length >0 ?
-      orderedListPages.map((pokemon)=>{
-        return(
-          <div key={pokemon.id}>
-         <Card id={pokemon.id} name={pokemon.name} image={pokemon.image} 
-         types={pokemon.types}
-         />
-        </div>
-        )
-      })
-        : filteredListPages.map((pokemon)=>{
-          return(
-            <div key={pokemon.id}>
-           <Card id={pokemon.id} name={pokemon.name} image={pokemon.image} 
-           types={pokemon.types}
-           />
-          </div>
-          )
-        })}
+      {loading ? (
+  <div className="loader">Cargando...</div>
+) : (
+  orderedList.length > 0 ? (
+    orderedListPages.map((pokemon) => (
+      <div key={pokemon.id}>
+        <Card
+          id={pokemon.id}
+          name={pokemon.name}
+          image={pokemon.image}
+          types={pokemon.types}
+        />
+      </div>
+    ))
+  ) : (
+    filteredListPages.map((pokemon) => (
+      <div key={pokemon.id}>
+        <Card
+          id={pokemon.id}
+          name={pokemon.name}
+          image={pokemon.image}
+          types={pokemon.types}
+        />
+      </div>
+    ))
+  )
+)}
         </div>
          <nav>
-        <ul className="pagination">
-          {pages.map((page) => (
-            // eslint-disable-next-line react/jsx-no-comment-textnodes
-            <button key={page} className={page === currentPage ? "page-item active" : "page-item"}>
-              
-              <a className="page-link" onClick={() => handlePageChange(page)}>
-                {page}
-              </a>
-            </button>
-          ))}
-        </ul>
+         <ul className="pagination">
+  {(() => {
+    const pageNumbers = [];
+    if (currentPage === pageCount && pageCount > 1) {
+      pageNumbers.push(1);
+    }
+    if (currentPage > 1) {
+      pageNumbers.push(currentPage - 1);
+    }
+    pageNumbers.push(currentPage);
+    if (currentPage < pageCount) {
+      pageNumbers.push(currentPage + 1);
+    }
+    if (currentPage < pageCount - 1) {
+      pageNumbers.push(pageCount);
+    }
+    return pageNumbers.map((page) => (
+      <button
+        key={page}
+        className={page === currentPage ? "page-item active" : "page-item"}
+        onClick={() => handlePageChange(page)}
+      >
+        <a className="page-link">{page}</a>
+      </button>
+    ));
+  })()}
+</ul>
       </nav>
       </div>
     )

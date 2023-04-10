@@ -26,9 +26,9 @@ export const validate = (pokemon) => {
       errors.defense = 'La defensa debe ser mayor a 0 y menor o igual a 500';
     }
     if(pokemon.types.length===0){
-    errors.types = 'Debe seleccionar 1 o mas tipos';
-    }
-    
+    errors.types = 'Debe seleccionar al menos 1';
+    }else if(pokemon.types.length<2)
+    errors.types = 'Puede tener 2 tipos como máximo';
     return errors;
   };
   

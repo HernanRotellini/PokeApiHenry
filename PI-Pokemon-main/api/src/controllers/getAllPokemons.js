@@ -8,7 +8,7 @@ let apiPokemons= [];
 const getAllPokemons = async (req, res) => {
   try {
     if (isFirstRequest) {
-      const response = await axios.get("https://pokeapi.co/api/v2/pokemon?offset=0&limit=40");
+      const response = await axios.get("https://pokeapi.co/api/v2/pokemon?offset=0&limit=804");
       const { results } = response.data;
       const pokemonPromises = results.map(async (pokemon) => {
         const Apiresponse = await axios.get(pokemon.url);
