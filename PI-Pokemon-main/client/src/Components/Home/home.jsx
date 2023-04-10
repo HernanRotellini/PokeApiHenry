@@ -133,9 +133,9 @@ function Home(props) {
         </div>
       <div className={style.cards}>
       {loading ? (
-  <div className="loader">
+  
   <img src="https://i.postimg.cc/pdtFRpqh/Loading-Pokemon.gif" alt="Cargando..." style={{ marginLeft:"350px" }} />
-   </div>
+   
 ) : (
   orderedList.length > 0 ? (
     orderedListPages.map((pokemon) => (
@@ -166,7 +166,7 @@ function Home(props) {
          <ul className="pagination">
   {(() => {
     const pageNumbers = [];
-    if (currentPage === pageCount && pageCount > 1 || currentPage>3) {
+    if (currentPage === pageCount  || currentPage>=3) {
       pageNumbers.push(1);
     }
     if (currentPage > 1) {
