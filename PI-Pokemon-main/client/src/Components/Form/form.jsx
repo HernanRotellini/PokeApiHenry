@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loadTypes, postPokemon } from "../../redux/actions";
 import {NavLink} from "react-router-dom"
-import style from './form.modules.css'
+import style from './form.module.css'
 function Form(props){
 const dispatch = useDispatch()
   useEffect(()=>{
