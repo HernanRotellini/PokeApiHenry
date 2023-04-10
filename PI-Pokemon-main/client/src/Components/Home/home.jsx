@@ -166,7 +166,7 @@ function Home(props) {
          <ul className="pagination">
   {(() => {
     const pageNumbers = [];
-    if (currentPage === pageCount && pageCount > 1 && currentPage>3) {
+    if (currentPage === pageCount && pageCount > 1 || currentPage>3) {
       pageNumbers.push(1);
     }
     if (currentPage > 1) {

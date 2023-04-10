@@ -81,7 +81,7 @@ const reducer = (state= initialState, action)=>{
                     orderedPokemons: []
                 };
               }
-            let orderPokemons = [...state.filteredPokemons]; // Clonamos el array filtrado
+            let orderPokemons = [...state.filteredPokemons];
             switch (action.payload) {
               case 'A-Z':
                 orderPokemons.sort((a, b) => a.name.localeCompare(b.name));

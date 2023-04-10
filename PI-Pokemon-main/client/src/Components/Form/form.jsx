@@ -45,7 +45,8 @@ const dispatch = useDispatch()
 
         if (!hasErrors) {
        const pokemon = {
-        name: newPokemon.name,
+       // name: newPokemon.name.replace(/\s+/g, ' ').trim(),
+       name: newPokemon.name.trim().charAt(0).toUpperCase()+ newPokemon.name.slice(1),
         image: newPokemon.image,
         hp: newPokemon.hp,
         attack: newPokemon.attack,
@@ -71,17 +72,17 @@ const dispatch = useDispatch()
             <label className="labels" htmlFor="name">Nombre:</label>
             <input className="my-input" type="text" name="name" onChange={onChange} value={newPokemon.name} />
             {errors.name && <div className="error">{errors.name}</div>}
-            <br />
+            
             <label className="labels" htmlFor="height">Altura:</label>
             <input className="my-input" type="number" name="height" onChange={onChange} value={newPokemon.height} />
-            <br />
+            
             <label className="labels" htmlFor="weight">Peso:</label>
             <input className="my-input" type="number" name="weight" onChange={onChange} value={newPokemon.weight} />
-            <br />
+        
             <label className="labels" htmlFor="image">Imagen Url:</label>
             <input className="my-input" type="text" name="image" onChange={onChange} value={newPokemon.image} />
             {errors.image && <div className="error">{errors.image}</div>}
-            <br />
+            
             <label className="labels" htmlFor="types">Tipos:</label>
             <select className="my-select" name="types" id="types" onChange={onSelectChange} value={newPokemon.types} multiple>
               {types.map(type => (
@@ -91,25 +92,25 @@ const dispatch = useDispatch()
               ))}
             </select>
             {errors.types && <div className="error">{errors.types}</div>}
-            <br /><br />
+            
            
           </div>
           <div  className={formStyle.columnRight}>
             <label className="labels" htmlFor="hp">HP:</label>
             <input className="my-input" type="number" name="hp" onChange={onChange} value={newPokemon.hp} />
             {errors.hp && <div className="error">{errors.hp}</div>}
-            <br />
+            
             <label className="labels" htmlFor="attack">Ataque:</label>
             <input className="my-input" type="number" name="attack" onChange={onChange} value={newPokemon.attack} />
             {errors.attack && <div className="error">{errors.attack}</div>}
-            <br />
+           
             <label className="labels" htmlFor="defense">Defensa:</label>
             <input className="my-input" type="number" name="defense" onChange={onChange} value={newPokemon.defense} />
             {errors.defense && <div className="error">{errors.defense}</div>}
-            <br />
+          
             <label className="labels" htmlFor="speed">Velocidad:</label>
             <input className="my-input" type="number" name="speed" onChange={onChange} value={newPokemon.speed} />
-            <br />
+          
             
            
           </div>

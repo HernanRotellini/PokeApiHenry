@@ -47,7 +47,8 @@ form {
     }
     
     .error {
-      color: red;
+      color: black;
+      font-weight: bold;
     }
     
     .buttons {

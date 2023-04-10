@@ -1,9 +1,61 @@
-.fondoDetail{
-        height: 100vh;
-        overflow: hidden;
-        text-align: center;
-      background-image: url("https://i.postimg.cc/CMtbpB6q/pokeBack.jpg");
-      background-repeat: no-repeat;
-      background-size: cover;
-      
+.fondoDetail {
+  height: 100vh;
+  overflow: hidden;
+  text-align: center;
+  background-image: url("https://i.postimg.cc/CMtbpB6q/pokeBack.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 20px;
+  justify-items: center;
+  align-items: start;
 }
+.fondoDetail .image {
+  grid-column: 1 / 2;
+  grid-row: 1 / -1;
+  justify-self: center;
+  width: 500px;
+  height: 500px;
+}
+
+.fondoDetail h2 {
+  grid-column: 2 / 4;
+}
+
+.fondoDetail h4 {
+  grid-column: 2 / 3;
+}
+
+.fondoDetail h2:nth-child(n+5) {
+  grid-column: 3 / 4;
+}
+.loader{
+  display: block;
+  position: absolute;
+  height: 12px;
+  width: 80%;
+  border: 1px solid #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  margin: auto;
+  left: 40%;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.loader:after{
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 0;
+  background: #FF3D00;
+  animation: 6s prog ease-in infinite;
+}
+
+@keyframes prog {
+  to  {   width: 100%;}
+}
+  

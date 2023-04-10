@@ -1,12 +1,15 @@
 export const validate = (pokemon) => {
     let errors = {};
-    const regex = /(https?:\/\/.*\.(?:png|jpeg|jpg))/i
-    const nameRegex = /^[a-zA-Z]+$/;
+    const regex = /(https?:\/\/.*\.(?:png|jpeg|jpg))/i;
+    const nameRegex = /^[a-zA-Z\s]+$/;
+    const nameSpaceRegex = /^[a-zA-Z]+(\s[a-zA-Z]+)*$/;
     // Validar que el nombre esté completo
     if (!pokemon.name || pokemon.name.trim().length===0) {
       errors.name = 'El nombre es requerido';
     }else if (!nameRegex.test(pokemon.name)) {
       errors.name = 'El nombre no puede contener numeros ni caracteres especiales';
+    }else if(!nameSpaceRegex.test(pokemon.name)){
+      errors.name = 'Las palabras deben estar separadas por 1 solo espacio';
     }
     //Validar que la imagen sea .jpg, .jpeg o .png
     if (!pokemon.image || pokemon.name.trim().length===0) {
