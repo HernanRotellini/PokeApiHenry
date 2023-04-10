@@ -16,8 +16,9 @@ export default function SearchBar(props) {
       }
     }
    const findByName = async () => {
+      await props.handleResetFilters();
       // Obtener el Pokémon por su nombre utilizando dispatch
-      await  dispatch(getPokemonName(pokemonName));
+      dispatch(getPokemonName(pokemonName));
 
     };
  
@@ -31,7 +32,7 @@ export default function SearchBar(props) {
       
       <div>
          <input onKeyDown={handleKeyPress} type='search' onChange={onchange} value={pokemonName}/>
-         <button onClick={findByName} >Buscar</button>
+         <button onClick={findByName}>Buscar</button>
          <br />
          <br />
          <Link to="/home">
