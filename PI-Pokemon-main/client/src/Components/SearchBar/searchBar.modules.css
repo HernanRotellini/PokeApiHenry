@@ -29,3 +29,6 @@
      position: relative;
      font-size: 18px;
   }
+  .buttons:hover{
+    cursor: pointer;
+  }

@@ -18,18 +18,18 @@ export const validate = (pokemon) => {
       errors.image = "La url debe tener un formato https// y extensión .jpg, .jpeg o .png"
     }
   
-    // Validar que hp, attack y defense sean menores a 500
-    if (!pokemon.hp || pokemon.hp < 0 || pokemon.hp > 500) {
-      errors.hp = 'La vida debe ser mayor a 0 y menor o igual a 500';
+    // Validar que hp, attack y defense sean menores a 255
+    if (!pokemon.hp || pokemon.hp < 0 || pokemon.hp >= 255) {
+      errors.hp = 'La vida debe ser mayor a 0 y menor o igual a 255';
     }
-    if (!pokemon.attack || pokemon.attack < 0 || pokemon.attack > 500) {
-      errors.attack = 'El ataque debe ser mayor a 0 y menor o igual a 500';
+    if (!pokemon.attack || pokemon.attack < 0 || pokemon.attack >= 255) {
+      errors.attack = 'El ataque debe ser mayor a 0 y menor o igual a 255';
     }
-    if (!pokemon.defense || pokemon.defense < 0 || pokemon.defense > 500) {
-      errors.defense = 'La defensa debe ser mayor a 0 y menor o igual a 500';
+    if (!pokemon.defense || pokemon.defense < 0 || pokemon.defense > 255) {
+      errors.defense = 'La defensa debe ser mayor a 0 y menor o igual a 255';
     }
     if(pokemon.types.length===0){
-    errors.types = 'Debe seleccionar al menos 1';
+    errors.types = 'Debe seleccionar al menos 1 tipo';
     }else if(pokemon.types.length>2)
     errors.types = 'No puede tener más de 2 tipos';
     return errors;

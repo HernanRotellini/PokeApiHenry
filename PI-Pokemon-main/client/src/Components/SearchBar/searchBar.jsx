@@ -1,6 +1,6 @@
-import React, {  useState } from "react";
+import React, {  useState,useEffect } from "react";
 import { NavLink } from "react-router-dom";
-import { getAllPokemons, getPokemonName } from "../../redux/actions";
+import { getAllPokemons, getPokemonName, loadTypes} from "../../redux/actions";
 import { useDispatch } from "react-redux";
 import "./searchBar.modules.css"
 export default function SearchBar(props) {
@@ -9,28 +9,31 @@ export default function SearchBar(props) {
    const dispatch = useDispatch()
 
    const onchange = ((event)=>{
-   
-     setPokemonName(event.target.value);
+      const {value}= event.target
+      if(value){
+     setPokemonName(value);
+      }else{
+         dispatch(getAllPokemons());
+         dispatch(getAllPokemons())
+         .then(dispatch(loadTypes()))
+         
+         setPokemonName('');
+      }
    });
    const handleKeyPress = (event) => {
       if(event.key === 'Enter'){
           findByName(event)
       }
     }
-    //evento que se ejecuta cuando el usuario hace click en otro lado que no sea el input
-    const onBlur = () => {
-      if (pokemonName.length === 0) {
-        dispatch(getAllPokemons());
-      }
-    };
-   const findByName = async () => {
+   
+   const findByName = () => {
   // Obtener el Pokémon por su nombre utilizando dispatch
   dispatch(getPokemonName(pokemonName.trim()));
 };
    return (
       
       <div className="searchBar">
-         <input onBlur={onBlur} onKeyDown={handleKeyPress} type='search' onChange={onchange} value={pokemonName}/>
+         <input onKeyDown={handleKeyPress} type='search' onChange={onchange} value={pokemonName}/>
          <button onClick={findByName}>Buscar</button>
          <br />
          <br />
