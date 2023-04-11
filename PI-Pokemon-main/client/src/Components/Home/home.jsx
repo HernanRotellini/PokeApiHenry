@@ -165,12 +165,26 @@ function Home(props) {
          {(() => {
   let pageNumbers = [];
   let orderedPageNumbers = [];
-
-  if (props.orderedPokemons.length > 0) {
-    for (let i = 1; i <= orderedPageCount; i++) {
-      orderedPageNumbers.push(i);
+  if (props.orderedPokemons.length === 1){
+    orderedPageNumbers.push(1);
+  }
+  if (props.orderedPokemons.length > 1) {
+    if (currentPage === orderedPageCount || currentPage >= 3) {
+      orderedPageNumbers.push(1);
     }
-  } else {
+    if (currentPage > 1) {
+      orderedPageNumbers.push(currentPage - 1);
+    }
+    orderedPageNumbers.push(currentPage);
+    if (currentPage < orderedPageCount) {
+      orderedPageNumbers.push(currentPage + 1);
+    }
+    if (currentPage < orderedPageCount - 1) {
+      orderedPageNumbers.push(orderedPageCount);
+    }
+  } 
+  else {
+
     if (currentPage === pageCount || currentPage >= 3) {
       pageNumbers.push(1);
     }
