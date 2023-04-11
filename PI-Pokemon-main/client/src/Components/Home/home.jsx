@@ -165,10 +165,11 @@ function Home(props) {
          {(() => {
   let pageNumbers = [];
   let orderedPageNumbers = [];
-  if (props.orderedPokemons.length === 1){
+
+  if (props.orderedPokemons.length <= 12){
     orderedPageNumbers.push(1);
   }
-  if (props.orderedPokemons.length > 1) {
+  if (props.orderedPokemons.length > 12) {
     if (currentPage === orderedPageCount || currentPage >= 3) {
       orderedPageNumbers.push(1);
     }

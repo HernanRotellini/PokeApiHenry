@@ -130,6 +130,29 @@ label{
   border-radius: 5px;
 }
 
+.types .Ice {
+  background-color: #98D8D8;
+  color: #fff;
+  padding: 2px 6px;
+  margin-right: 5px;
+  border-radius: 5px;
+}
+
+.types .Shadow {
+  background-color: #444444;
+  color: #fff;
+  padding: 2px 6px;
+  margin-right: 5px;
+  border-radius: 5px;
+}
+
+.types .Unknown {
+  background-color: #E0E0E0;
+  color: #000;
+  padding: 2px 6px;
+  margin-right: 5px;
+  border-radius: 5px;
+  }
 
 .types .Fighting {
   background-color: #C22E28;
