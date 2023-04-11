@@ -18,7 +18,7 @@ const getAllTypes = async (req, res) => {
 }
 return allTypes;
   } catch (error) {
-    return "Algo se rompio en getAllTypes"
+    console.log("Algo falló en getAllTypes");
   }
 };
 const loadTypes = async (req, res) => {

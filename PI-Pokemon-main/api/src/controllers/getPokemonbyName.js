@@ -66,19 +66,16 @@ const getPokemonbyName = async (req, res) => {
             pokemonList.push(...pokemonDB);
         }
         
-        // Devolver el pokemonList
+        // Devolver el pokemonList lleno
         if (pokemonList.length) {
             res.json(pokemonList);
           }
         
     } catch (error) {
         let pokemonList = [];
-         if(pokemonList.length===0) {
+        
         res.json(pokemonList)
-        }else{
-        res.status(404).json({ message: 'Pokemons not found' });
-        }
-        }
+    }   
 }
     
 module.exports = getPokemonbyName;

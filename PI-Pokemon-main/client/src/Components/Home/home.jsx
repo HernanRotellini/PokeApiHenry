@@ -8,38 +8,46 @@ import style from "./home.module.css";
 import SearchBar from "../SearchBar/searchBar";
 function Home(props) {
     const dispatch = useDispatch();
+    //Estados locales para filtros
     const [typeFilter, setTypeFilter] = useState("All");
     const [originFilter, setOriginFilter] = useState("Any");
     const [alphabeticOrder, setAlphabeticOrder] = useState('NoOrder');
     const [attackOrder, setAttackOrder] = useState('NoOrder');
-    const [pokemonList, setPokemonList] = useState([]);
-    const [orderedList, setOrderedList] = useState([]);
+    //Estados locales Paginador
+    // const [pokemonList, setPokemonList] = useState([]);
+    // const [orderedList, setOrderedList] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [pageSize] = useState(12);
+
+    //Estado local para renderizar mientras se cargan los datos
     const [loading,setLoading]= useState(true)
+    //Estado Global de todos los types
     const types = useSelector(state => state.allTypes)
+    //Paginador
     const getPokemonsByPage = (pokemons, pageNumber, pageSize) => {
         const startIndex = (pageNumber - 1) * pageSize;
         const endIndex = startIndex + pageSize;
         return pokemons.slice(startIndex, endIndex);
       };
-      const orderedListPages = getPokemonsByPage(orderedList, currentPage, pageSize);
-      const filteredListPages = getPokemonsByPage(pokemonList, currentPage, pageSize);
+      //Listas paginadas
+      const orderedListPages = getPokemonsByPage(props.orderedPokemons, currentPage, pageSize);
+      const filteredListPages = getPokemonsByPage(props.filteredPokemons, currentPage, pageSize);
       const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
       };
       
-      const pageCount = Math.ceil(pokemonList.length / pageSize);
+      const pageCount = Math.ceil(props.filteredPokemons.length / pageSize);
+      const orderedPageCount = Math.ceil(props.orderedPokemons.length / pageSize);
       const pages = [];
+      const orderedPages=[];
     for (let i = 1; i <= pageCount; i++) {
     pages.push(i);
     }
-    // const handleResetFilters = () => {
-    //   setTypeFilter("All");
-    //   setOriginFilter("Any");
-    //   setAlphabeticOrder('NoOrder');
-    //   setAttackOrder('NoOrder');
-    // };
+    for (let i = 1; i <= orderedPageCount; i++) {
+      orderedPages.push(i);
+      }
+//Fin paginador
+   //Carga de datos antes de renderizar
     useEffect(() => {
       dispatch(loadTypes())
       dispatch(getAllPokemons())
@@ -51,14 +59,11 @@ function Home(props) {
         setTimeout(() => setLoading(false), 2000);
       });
     }, [dispatch]);
+//Fin Carga de datos
 
-    useEffect(() => {
-      setPokemonList([...props.filteredPokemons]);
-    }, [props.filteredPokemons]);
-
+//Manejadores de filtrado
     const handleTypeFilterChange = (event) => {
       setTypeFilter(event.target.value);
-    
       dispatch(filteredPokemons({ type: event.target.value, origin: originFilter }));
       if(alphabeticOrder !== "NoOrder")
       dispatch(orderedPokemons(alphabeticOrder))
@@ -74,10 +79,6 @@ function Home(props) {
       if(attackOrder !== "NoOrder")
       dispatch(orderedPokemons(attackOrder))
     };
-    useEffect(() => {
-     
-      setOrderedList(props.orderedPokemons);
-    }, [props.orderedPokemons]);
 
     const handleAlfabeticOrderChange = (event) => {
       dispatch(orderedPokemons(event.target.value))
@@ -85,18 +86,17 @@ function Home(props) {
       setAttackOrder('NoOrder')
       dispatch(filteredPokemons({ type: typeFilter, origin: originFilter }));
     };
+
     const handleAttackOrderChange = (event) => {
       dispatch(orderedPokemons(event.target.value))
       setAttackOrder(event.target.value)
       setAlphabeticOrder('NoOrder')
     };
-   
+   //Fin manejadores de filtros
     return (
       <div>
            <div className="search-container">
-      <SearchBar
-       
-      />
+      <SearchBar />
       </div>
         <div className="filter-container">
         <label className="labels" htmlFor="">Filtrar por Tipo:</label>
@@ -135,7 +135,7 @@ function Home(props) {
   <img src="https://i.postimg.cc/pdtFRpqh/Loading-Pokemon.gif" alt="Cargando..." style={{ marginLeft:"350px" }} />
    
 ) : (
-  orderedList.length > 0 ? (
+  props.orderedPokemons.length > 0 ? (
     orderedListPages.map((pokemon) => (
       <div key={pokemon.id}>
         <Card
@@ -162,9 +162,16 @@ function Home(props) {
         </div>
          <nav>
          <ul className="pagination">
-  {(() => {
-    const pageNumbers = [];
-    if (currentPage === pageCount  && currentPage>=3) {
+         {(() => {
+  let pageNumbers = [];
+  let orderedPageNumbers = [];
+
+  if (props.orderedPokemons.length > 0) {
+    for (let i = 1; i <= orderedPageCount; i++) {
+      orderedPageNumbers.push(i);
+    }
+  } else {
+    if (currentPage === pageCount && currentPage >= 3) {
       pageNumbers.push(1);
     }
     if (currentPage > 1) {
@@ -177,16 +184,20 @@ function Home(props) {
     if (currentPage < pageCount - 1) {
       pageNumbers.push(pageCount);
     }
-    return pageNumbers.map((page) => (
-      <button
-        key={page}
-        className={page === currentPage ? "page-item active" : "page-item"}
-        onClick={() => handlePageChange(page)}
-      >
-        <a className="page-link">{page}</a>
-      </button>
-    ));
-  })()}
+  }
+
+  const pageList = orderedPageNumbers.length > 0 ? orderedPageNumbers : pageNumbers;
+
+  return pageList.map((page) => (
+    <button
+      key={page}
+      className={page === currentPage ? "page-item active" : "page-item"}
+      onClick={() => handlePageChange(page)}
+    >
+      <a className="page-link">{page}</a>
+    </button>
+  ));
+})()}
 </ul>
       </nav>
       </div>
@@ -194,7 +205,7 @@ function Home(props) {
      
        
   }
-  
+  //Traer estados globales para utilizar en la renderizacion
   const mapStateToProps = (state) => {
     return {
       allPokemons: state.allPokemons,
