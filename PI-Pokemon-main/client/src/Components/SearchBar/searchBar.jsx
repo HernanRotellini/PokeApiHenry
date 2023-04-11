@@ -1,5 +1,5 @@
 import React, {  useState } from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { getPokemonName } from "../../redux/actions";
 import { useDispatch } from "react-redux";
 import "./searchBar.modules.css"
@@ -19,8 +19,7 @@ export default function SearchBar(props) {
    const findByName = async () => {
       await props.handleResetFilters();
       // Obtener el Pokémon por su nombre utilizando dispatch
-      dispatch(getPokemonName(pokemonName));
-
+     dispatch(getPokemonName(pokemonName));
     };
    return (
       
@@ -29,10 +28,10 @@ export default function SearchBar(props) {
          <button onClick={findByName}>Buscar</button>
          <br />
          <br />
-         <div className="mitad-rojo-gris">
-            <Link to="/create">
-            <button>Crear Pokemon</button>
-            </Link>
+         <div className="mitad-naranja-negro">
+            <NavLink to="/create">
+            <button >Crear Pokemon</button>
+            </NavLink>
             </div>
       </div>
      

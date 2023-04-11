@@ -10,39 +10,34 @@
   overflow: hidden;
 }
 
-.image-container {
+.left-column {
+  margin-top: 70px;
   flex: 1;
-}
-
-.image {
-  max-width: 100%;
-}
-
-.info-container {
-  flex: 2;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  margin-left: 180px;
+  color: yellow;
+  text-shadow: -2px -2px 0 #0000ff, 2px -2px 0 #0000ff, -2px 2px 0 #0000ff, 2px 2px 0 #0000ff;
 }
-
-.button-container {
-  margin-top: 20px;
+.types-container {
   display: flex;
-  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
 }
 
-.buttons {
-  padding: 10px 20px;
-  border-radius: 5px;
-  font-size: 16px;
-  color: #fff;
-  background-color: #555;
-  border: none;
-  cursor: pointer;
+.types-container h2 {
+  margin-right: 10px;
 }
-
-.buttons:hover {
-  background-color: #333;
+.right-column {
+  margin-top: 70px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  color: yellow;
+  text-shadow: -2px -2px 0 #0000ff, 2px -2px 0 #0000ff, -2px 2px 0 #0000ff, 2px 2px 0 #0000ff;
+  margin-left: -20px;
 }
 
 .image-container {
@@ -51,8 +46,8 @@
 }
 
 .image {
-  margin-top: 150px;
-  margin-left: 50px;
+  margin-top: 100px;
+  margin-left: 200px;
   width: 300px;
   height: 300px;
 }
@@ -61,14 +56,22 @@
   width: 60%;
 }
 
-.button-container {
-  margin-top: 1em;
+.buttons {
+  color: yellow;
+  text-shadow: -1px -1px 0 #0000ff, 1px -1px 0 #0000ff, -1px 1px 0 #0000ff, 1px 1px 0 #0000ff;
+
+  border: 2px solid black;
+  margin-right: 10px;
+  margin-left: 10px;
+  padding: 5px 10px;
+ position: relative;
 }
+
 .loader{
   display: block;
   position: absolute;
   height: 12px;
-  width: 80%;
+  width: 10%;
   border: 1px solid #fff;
   border-radius: 10px;
   overflow: hidden;
@@ -86,7 +89,7 @@
   height: 100%;
   width: 0;
   background: #FF3D00;
-  animation: 6s prog ease-in infinite;
+  animation: 2.5s prog ease-in infinite;
 }
 
 @keyframes prog {

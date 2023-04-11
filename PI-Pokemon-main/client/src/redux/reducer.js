@@ -26,19 +26,26 @@ const reducer = (state= initialState, action)=>{
             }
         }
         case GET_POKEMON_NAME:{
+            if(action.payload.data.length>0){
                 let foundPokemons= action.payload.data.filter((poke) => poke.name.toLowerCase() === action.payload.name.toLowerCase())
                 if(foundPokemons.length){
                 return{
                   ...state,
-                  filteredPokemons:foundPokemons
+                  orderedPokemons:[...foundPokemons]
                 }
             }
             else{
                 return{
                     ...state,
-                    filteredPokemons: [...state.allPokemons]
+                    orderedPokemons:[]
                 }
             }
+        }else{
+            return{
+                ...state,
+                orderedPokemons:[]
+            }
+        }
         }
         case POST_POKEMON:{
             return{

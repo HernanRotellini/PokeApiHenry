@@ -29,7 +29,7 @@ export const getAllPokemons = () => {
        
         const response = await axios.get(`http://localhost:3001/pokemons/name?name=${name}`);
         dispatch({ type: GET_POKEMON_NAME, payload: { name: name, data: response.data } });
-        if(response.data.length>35){
+        if(response.data.length===0){
         alert("No se encontraron pokemones con ese nombre")
        }
       } catch (error) {

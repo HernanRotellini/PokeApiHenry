@@ -1,28 +1,35 @@
 .searchBar{
-    background-color: goldenrod;
-    border: none;
-    color: white;
     padding: 10px 20px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
     margin: 4px 2px;
-    cursor: pointer;
+    
     border-radius: 0;
 }
-  .mitad-rojo-gris {
-    background: linear-gradient(to right, orange 50%, black 50%);
-    border: none;
+.searchBar input {
+  background-color: transparent;
+  border: 5px solid;
+  border-bottom: 2px solid white;
+  color: white;
+  font-size: 16px;
+  padding: 10px;
+  width: 300px;
+  outline: none;
+}
+  .mitad-naranja-negro {
+    
+   
     color: white;
     padding: 12px 24px;
     font-size: 16px;
-    cursor: pointer;
+    
     position: relative;
     overflow: hidden;
   }
   
-  .mitad-rojo-gris::before {
+  .mitad-naranja-negro::before {
     content: "";
     position: absolute;
     top: 0;
