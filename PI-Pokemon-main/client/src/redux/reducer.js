@@ -41,12 +41,8 @@ const reducer = (state= initialState, action)=>{
                     orderedPokemons:[]
                 }
             }
-        }else{
-            return{
-                ...state,
-                orderedPokemons:[]
-            }
         }
+        break;
         }
         case POST_POKEMON:{
             return{
@@ -79,7 +75,7 @@ const reducer = (state= initialState, action)=>{
                         return pokemon
                     }
                 }
-            return "No se encontraron pokemones con ese tipo u origen"})
+            return {}})
             }
         }
         case ORDERED_POKEMONS: {
@@ -109,7 +105,6 @@ const reducer = (state= initialState, action)=>{
             return {
               ...state,
               orderedPokemons: [...orderPokemons], 
-             
             };
         }
             case ALL_TYPES:
