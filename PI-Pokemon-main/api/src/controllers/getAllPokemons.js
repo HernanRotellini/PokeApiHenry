@@ -14,6 +14,7 @@ const getAllPokemons = async (req, res) => {
         const Apiresponse = await axios.get(pokemon.url);
         const { id, name, stats, sprites, height, weight } = Apiresponse.data;
         const { front_default } = sprites;
+        //const { front_default } = sprites.versions['generation-v']['black-white'].animated;
         const hp = stats.find((stat) => stat.stat.name === "hp").base_stat;
         const attack = stats.find((stat) => stat.stat.name === "attack").base_stat;
         const defense = stats.find((stat) => stat.stat.name === "defense").base_stat;

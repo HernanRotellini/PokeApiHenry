@@ -16,7 +16,8 @@ const reducer = (state= initialState, action)=>{
             return {
                 ...state, 
                 allPokemons : action.payload,
-                filteredPokemons: [...state.allPokemons]
+                filteredPokemons: [...state.allPokemons],
+                orderedPokemons: [],
             }
         }
         case GET_POKEMON_DETAIL:{
