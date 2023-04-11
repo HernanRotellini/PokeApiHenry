@@ -2,20 +2,20 @@ export const validate = (pokemon) => {
     let errors = {};
     const regex = /(https?:\/\/.*\.(?:png|jpeg|jpg))/i;
     const nameRegex = /^[a-zA-Z\s]+$/;
-    const nameSpaceRegex = /^[a-zA-Z]+(\s[a-zA-Z]+)*$/;
-    // Validar que el nombre esté completo
-    if (!pokemon.name || pokemon.name.trim().length===0) {
+    const oneWordRegex = /^[^\s]+$/;
+   
+    if (!pokemon.name && pokemon.name.trim().length===0) {
       errors.name = 'El nombre es requerido';
-    }else if (!nameRegex.test(pokemon.name)) {
+    } else if (!nameRegex.test(pokemon.name)) {
       errors.name = 'El nombre no puede contener numeros ni caracteres especiales';
-    }else if(!nameSpaceRegex.test(pokemon.name)){
-      errors.name = 'Las palabras deben estar separadas por 1 solo espacio';
+    } else if(!oneWordRegex.test(pokemon.name)){
+      errors.name = 'El nombre debe ser una sola palabra';
     }
-    //Validar que la imagen sea .jpg, .jpeg o .png
-    if (!pokemon.image || pokemon.name.trim().length===0) {
+    
+    if (!pokemon.image && pokemon.name.trim().length===0) {
       errors.image = 'La URL de la imagen es requerida';
     }else if(!regex.test(pokemon.image)){
-      errors.image = "La url debe estar en formato .jpg, .jpeg o .png"
+      errors.image = "La url debe tener un formato https// y extensión .jpg, .jpeg o .png"
     }
   
     // Validar que hp, attack y defense sean menores a 500

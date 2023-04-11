@@ -9,6 +9,7 @@ export default function SearchBar(props) {
    const dispatch = useDispatch()
 
    const onchange = ((event)=>{
+   
      setPokemonName(event.target.value);
    });
    const handleKeyPress = (event) => {
@@ -23,10 +24,9 @@ export default function SearchBar(props) {
       }
     };
    const findByName = async () => {
-      // Obtener el Pokémon por su nombre utilizando dispatch
-      const pokeName = pokemonName.trim()
-     dispatch(getPokemonName(pokeName));
-    };
+  // Obtener el Pokémon por su nombre utilizando dispatch
+  dispatch(getPokemonName(pokemonName.trim()));
+};
    return (
       
       <div className="searchBar">

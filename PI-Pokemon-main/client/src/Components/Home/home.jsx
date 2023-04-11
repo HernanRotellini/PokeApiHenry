@@ -186,7 +186,7 @@ function Home(props) {
   } 
   else {
 
-    if (currentPage === pageCount || currentPage >= 3) {
+    if (currentPage === pageCount  && currentPage!== 1 || currentPage >= 3) {
       pageNumbers.push(1);
     }
     if (currentPage > 1) {
@@ -199,6 +199,7 @@ function Home(props) {
     if (currentPage < pageCount - 1) {
       pageNumbers.push(pageCount);
     }
+    
   }
 
   const pageList = props.orderedPokemons.length > 0 ? orderedPageNumbers : pageNumbers;
