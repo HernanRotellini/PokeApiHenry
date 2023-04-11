@@ -34,12 +34,12 @@ function Home(props) {
     for (let i = 1; i <= pageCount; i++) {
     pages.push(i);
     }
-    const handleResetFilters = () => {
-      setTypeFilter("All");
-      setOriginFilter("Any");
-      setAlphabeticOrder('NoOrder');
-      setAttackOrder('NoOrder');
-    };
+    // const handleResetFilters = () => {
+    //   setTypeFilter("All");
+    //   setOriginFilter("Any");
+    //   setAlphabeticOrder('NoOrder');
+    //   setAttackOrder('NoOrder');
+    // };
     useEffect(() => {
       dispatch(loadTypes())
       dispatch(getAllPokemons())
@@ -95,9 +95,7 @@ function Home(props) {
       <div>
            <div className="search-container">
       <SearchBar
-        handleTypeFilter={setTypeFilter}
-        handleOriginFilter={setOriginFilter}
-        handleResetFilters={handleResetFilters}
+       
       />
       </div>
         <div className="filter-container">
@@ -166,7 +164,7 @@ function Home(props) {
          <ul className="pagination">
   {(() => {
     const pageNumbers = [];
-    if (currentPage === pageCount  || currentPage>=3) {
+    if (currentPage === pageCount  && currentPage>=3) {
       pageNumbers.push(1);
     }
     if (currentPage > 1) {

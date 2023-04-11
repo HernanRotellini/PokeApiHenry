@@ -23,7 +23,6 @@ export default function SearchBar(props) {
       }
     };
    const findByName = async () => {
-      await props.handleResetFilters();
       // Obtener el Pokémon por su nombre utilizando dispatch
       const pokeName = pokemonName.trim()
      dispatch(getPokemonName(pokeName));
@@ -35,12 +34,12 @@ export default function SearchBar(props) {
          <button onClick={findByName}>Buscar</button>
          <br />
          <br />
-         <div className="mitad-naranja-negro">
+         
             <NavLink to="/create">
-            <button >Crear Pokemon</button>
+            <button className="buttons" >Crear Pokemon</button>
             </NavLink>
             </div>
-      </div>
+     
      
    );
 }
