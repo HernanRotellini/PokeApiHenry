@@ -29,21 +29,18 @@ const reducer = (state= initialState, action)=>{
         }
         case GET_POKEMON_NAME:{
             if(action.payload.data.length>0){
-                let foundPokemons= action.payload.data.filter((poke) => poke.name.toLowerCase() === action.payload.name.toLowerCase())
-                if(foundPokemons.length){
+               
                 return{
                   ...state,
-                  orderedPokemons:[...foundPokemons]
+                  orderedPokemons:[...action.payload.data]
                 }
-            }
-            else{
+            
+            }else{
                 return{
                     ...state,
                     orderedPokemons:[]
                 }
             }
-        }
-        break;
         }
         case POST_POKEMON:{
             return{
@@ -86,6 +83,29 @@ const reducer = (state= initialState, action)=>{
                     orderedPokemons: []
                 };
               }
+            if(state.orderedPokemons.length){
+                let orderPokemons = [...state.orderedPokemons];
+                switch (action.payload) {
+                    case 'A-Z':
+                      orderPokemons.sort((a, b) => a.name.localeCompare(b.name));
+                      break;
+                    case 'Z-A':
+                      orderPokemons.sort((a, b) => b.name.localeCompare(a.name));
+                      break;
+                    case 'Asc':
+                      orderPokemons.sort((a, b) => a.attack - b.attack);
+                      break;
+                    case 'Desc':
+                      orderPokemons.sort((a, b) => b.attack - a.attack);
+                      break;
+                    default:
+                      break;
+                  }
+                return{
+                    ...state,
+                    orderedPokemons:[...orderPokemons],
+                }
+            }else{
             let orderPokemons = [...state.filteredPokemons];
             switch (action.payload) {
               case 'A-Z':
@@ -107,6 +127,7 @@ const reducer = (state= initialState, action)=>{
               ...state,
               orderedPokemons: [...orderPokemons], 
             };
+        }
         }
             case ALL_TYPES:
                 {
