@@ -3,9 +3,11 @@ import { NavLink } from "react-router-dom";
 import { getAllPokemons, getPokemonName, loadTypes} from "../../redux/actions";
 import { useDispatch } from "react-redux";
 import "./searchBar.modules.css"
+import { searchValidate } from './searchvalidate'
 export default function SearchBar(props) {
    
    const [pokemonName, setPokemonName] = useState('');
+   const [errors, setErrors] = useState({name:''})
    const dispatch = useDispatch()
 
    const onchange = ((event)=>{
@@ -27,14 +29,19 @@ export default function SearchBar(props) {
     }
    
    const findByName = () => {
-  // Obtener el Pokémon por su nombre utilizando dispatch
-  dispatch(getPokemonName(pokemonName.trim()));
+      const validationErrors = searchValidate(pokemonName);
+      setErrors(validationErrors);
+      if (Object.keys(validationErrors).length === 0) {
+         dispatch(getPokemonName(pokemonName.trim()));
+      }
 };
    return (
       
       <div className="searchBar">
-         <input onKeyDown={handleKeyPress} type='search' onChange={onchange} value={pokemonName}/>
+         <input placeholder="Buscar pokemon por nombre" onKeyDown={handleKeyPress} type='search' onChange={onchange} value={pokemonName}/>
          <button onClick={findByName}>Buscar</button>
+         {errors? <p>{errors.name}</p>: null}
+         
          <br />
          <br />
          

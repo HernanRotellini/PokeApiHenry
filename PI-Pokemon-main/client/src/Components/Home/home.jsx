@@ -35,7 +35,7 @@ function Home(props) {
       const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
       };
-      
+      //Llenado de paginas segun largo de la lista
       const pageCount = Math.ceil(props.filteredPokemons.length / pageSize);
       const orderedPageCount = Math.ceil(props.orderedPokemons.length / pageSize);
       const pages = [];
