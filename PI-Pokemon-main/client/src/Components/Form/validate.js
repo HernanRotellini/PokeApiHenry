@@ -10,6 +10,8 @@ export const validate = (pokemon) => {
       errors.name = 'El nombre no puede contener numeros ni caracteres especiales';
     } else if(!oneWordRegex.test(pokemon.name)){
       errors.name = 'El nombre debe ser una sola palabra';
+    }else if(pokemon.name.length>=20){
+      errors.name = 'El nombre no puede tener mas de 20 caracteres';
     }
     
     if (!pokemon.image && pokemon.name.trim().length===0) {
