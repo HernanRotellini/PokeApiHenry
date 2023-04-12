@@ -170,7 +170,9 @@ function Home(props) {
     orderedPageNumbers.push(1);
   }
   if (props.orderedPokemons.length > 12) {
-    if (currentPage === orderedPageCount || currentPage >= 3) {
+    if (currentPage === orderedPageCount ) {
+      orderedPageNumbers.push(1);
+    }else if(currentPage >= 3){
       orderedPageNumbers.push(1);
     }
     if (currentPage > 1) {
