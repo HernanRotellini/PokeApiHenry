@@ -186,7 +186,9 @@ function Home(props) {
   } 
   else {
 
-    if (currentPage === pageCount  && currentPage!== 1 || currentPage >= 3) {
+    if (currentPage === pageCount && currentPage!== 1) {
+      pageNumbers.push(1);
+    }else if(currentPage >= 3){
       pageNumbers.push(1);
     }
     if (currentPage > 1) {
