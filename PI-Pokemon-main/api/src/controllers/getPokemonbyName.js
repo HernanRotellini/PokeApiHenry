@@ -1,17 +1,48 @@
 const {Pokemon,Type} = require("../db");
 const axios = require("axios")
 const { Op } = require('sequelize');
-const getAllPokemons = require('./getAllPokemons')
+let pokemonList = [];
 const getPokemonbyName = async (req, res) => {
     try {
-    
+        pokemonList=[]
         const nombre = req.query.name.toLowerCase();
+        // Buscar en la base de datos y agregar al pokemonList
+        const dbPokemon = await Pokemon.findAll({
+            where: {
+                name: {
+                    [Op.iLike]: `${nombre}`,
+                },
+            },
+            include: [{ model: Type }],
+        });
+              
+        if (dbPokemon.length) {
+            const pokemonDB = dbPokemon.map(pokemon => {
+                const {id, name, image, hp, attack, defense, speed, height, weight } = pokemon;
+                return {
+                    id,
+                    name,
+                    image,
+                    hp,
+                    attack,
+                    defense,
+                    speed,
+                    height,
+                    weight,
+                    types: pokemon.Types.map((type) => type.name)
+                };
+                
+            });
+            
+            pokemonList.push(...pokemonDB);
+        }
+        
+        // Buscar en la API y agregar al pokemonList si se encuentra
         const response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${nombre}`);
-        let pokemonList = [];
-      
-        // Si se encuentra en la API, agregar al pokemonList
        
-            const {id, name, stats, sprites, height, weight,types } = response.data;
+        const pokemonAPI = response.data;
+        if (pokemonAPI) {
+            const {id, name, stats, sprites, height, weight,types } = pokemonAPI;
             const front_default = sprites.front_default;
             const hp = stats.find((stat) => stat.stat.name === 'hp').base_stat;
             const attack = stats.find((stat) => stat.stat.name === 'attack').base_stat;
@@ -34,47 +65,19 @@ const getPokemonbyName = async (req, res) => {
                 types: types.map(type => type.type.name.charAt(0).toUpperCase() + type.type.name.slice(1))
             }
             pokemonList.push(poke);
-        
-        let dbName = nombre.charAt(0).toUpperCase() + nombre.slice(1);
-        // Buscar en la base de datos y agregar al pokemonList
-        const dbPokemon = await Pokemon.findAll({
-            where: {
-                name: {
-                    [Op.iLike]: `%${dbName}%`,
-                },
-            },
-            include: [{ model: Type }],
-        });
-              
-        if (dbPokemon) {
-            const pokemonDB = dbPokemon.map(pokemon => {
-                const {id, name, image, hp, attack, defense, speed, height, weight,types } = pokemon;
-                const newName = name.charAt(0).toUpperCase() + name.slice(1);
-                return {
-                    id,
-                    name:newName,
-                    image,
-                    hp,
-                    attack,
-                    defense,
-                    speed,
-                    height,
-                    weight,
-                    types: pokemon.Types.map((type) => type.name)
-                };
-            });
-            pokemonList.push(...pokemonDB);
         }
-        
+       
         // Devolver el pokemonList lleno
-        if (pokemonList.length) {
-            res.json(pokemonList);
-          }
+        res.json(pokemonList);
         
     } catch (error) {
-        let pokemonList = [];
-        
+        if(pokemonList.length>0){
+            res.json(pokemonList)
+            pokemonList=[]
+        }else{
+            pokemonList=[]
         res.json(pokemonList)
+        }
     }   
 }
     

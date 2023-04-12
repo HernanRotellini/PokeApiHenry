@@ -12,8 +12,8 @@ const dispatch = useDispatch()
    
   },[dispatch])
     const types = useSelector(state=> state.allTypes)
-    const [newPokemon, setNewPokemon] = useState({ name: "", hp: 0, attack: 0, 
-    defense: 0, types: '', image: ""});
+    const [newPokemon, setNewPokemon] = useState({name: "", hp: 0, attack: 0, 
+    defense: 0,speed:0, types: '', image: "",height:0,weight:0});
     //const [image, setImage] = useState(null);
    const [errors, setErrors] = useState({});
   const onChange = (event)=>{
@@ -58,6 +58,8 @@ const dispatch = useDispatch()
       };
     
       dispatch(postPokemon(pokemon));
+      setNewPokemon({name: "", hp: 0, attack: 0, 
+      defense: 0,speed:0, types: '', image: "",height:0,weight:0})
       alert("Pokemon Creado")
     }
   
