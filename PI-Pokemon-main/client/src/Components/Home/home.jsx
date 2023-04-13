@@ -114,36 +114,17 @@ function Home(props) {
       <div className="search-container">
         <SearchBar />
       </div>
-      <div className="filter-container">
-        <label className="labels" htmlFor="">
-          Filtrar por Tipo:
-        </label>
-        <select
-          className="filter"
-          name="type"
-          id="typeFilter"
-          onChange={handleTypeFilterChange}
-          defaultValue="All"
-        >
-          <option value="All">Todos</option>
-          {types
-            ? types.map((type) => (
-                <option value={type.name} key={type.id}>
-                  {type.name}
-                </option>
-              ))
-            : null}
-        </select>
-        <label className="labels" htmlFor="">
-          Filtrar por Origen:{" "}
-        </label>
-        <select
-          className="filter"
-          name="origin"
-          id="originFilter"
-          onChange={handleOriginFilterChange}
-          defaultValue="Any"
-        >
+        <div className="filter-container">
+        <label className="labels" htmlFor="">Filtrar por Tipo:</label>
+<select className='filter' name="type" id="typeFilter" onChange={props.handleTypeFilterChange} defaultValue="All">
+  <option value="All">Todos</option>
+  {types ? types.map(type => <option value={type.name} key={type.id}>{type.name}</option>) 
+  : null}
+</select>
+        <label className="labels" htmlFor="">Filtrar por Origen:  </label>
+        <select className='filter' name="origin" id="originFilter"
+        onChange={props.handleOriginFilterChange} defaultValue="Any">
+
           <option value="Any">Todos</option>
           <option value="Api">Api</option>
           <option value="Database">Base de datos</option>
