@@ -5,3 +5,4 @@ export const POST_POKEMON = "POST_POKEMON";
 export const FILTERED_POKEMONS = "FILTERED_POKEMONS";
 export const ORDERED_POKEMONS = "ORDERED_POKEMONS";
 export const ALL_TYPES = "ALL_TYPES";
+export const SET_TYPES = "SET_TYPES";

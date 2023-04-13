@@ -1,5 +1,5 @@
 
-import { GET_ALL_POKEMONS, GET_POKEMON_DETAIL, GET_POKEMON_NAME, POST_POKEMON, FILTERED_POKEMONS,ORDERED_POKEMONS, ALL_TYPES } from "./actionstype";
+import {SET_TYPES, GET_ALL_POKEMONS, GET_POKEMON_DETAIL, GET_POKEMON_NAME, POST_POKEMON, FILTERED_POKEMONS,ORDERED_POKEMONS, ALL_TYPES } from "./actionstype";
 
 const initialState= {
 allPokemons:[],
@@ -7,6 +7,7 @@ pokemonDetail:{},
 orderedPokemons:[],
 filteredPokemons:[],
 allTypes: [],
+saveFilters:{order:null,type:null}
 
 }
 
@@ -123,12 +124,23 @@ const reducer = (state= initialState, action)=>{
               default:
                 break;
             }
+            
             return {
               ...state,
               orderedPokemons: [...orderPokemons], 
             };
         }
-        
+        case SET_TYPES:{
+            if(action.payload.type !== state.saveFilters.type){
+                state.saveFilters.type = action.payload.type
+            }
+            if(action.payload.order !== state.saveFilters.order){
+                state.saveFilters.order = action.payload.order
+            }
+            return{
+                ...state
+            }
+        }
             case ALL_TYPES:
                 {
                 return {

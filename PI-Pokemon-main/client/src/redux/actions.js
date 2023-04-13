@@ -1,10 +1,14 @@
 import { GET_ALL_POKEMONS, GET_POKEMON_DETAIL,GET_POKEMON_NAME, 
-  POST_POKEMON, FILTERED_POKEMONS,ORDERED_POKEMONS, ALL_TYPES } from "./actionstype";
+  POST_POKEMON, FILTERED_POKEMONS,ORDERED_POKEMONS, ALL_TYPES, SET_TYPES } from "./actionstype";
 import axios from "axios"
 
 export const getAllPokemons = () => {
     return async (dispatch) => {
       try {
+        // fetch("http://localhost:3001/pokemons")
+        // .then(response=> response.json())
+        // .then(data=> dispatch({ type: GET_ALL_POKEMONS, payload: 
+        //   data.data}))
         const response = await axios.get("http://localhost:3001/pokemons");
         return dispatch({ type: GET_ALL_POKEMONS, payload: response.data});
       } catch (error) {
@@ -91,4 +95,14 @@ export const getAllPokemons = () => {
        console.error(error);
      }
   }
+}
+export const loadFilters=(order="NoOrder",filter="All")=>{
+  return async (dispatch)=>{
+    try {
+     
+     return dispatch({ type: SET_TYPES, payload: {order,filter}});
+   } catch (error) {
+     console.error(error);
+   }
+}
 }
