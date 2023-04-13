@@ -96,11 +96,11 @@ export const getAllPokemons = () => {
      }
   }
 }
-export const loadFilters=(order="NoOrder",filter="All")=>{
+export const loadFilters=(origin="Any",filter="All")=>{
   return async (dispatch)=>{
     try {
      
-     return dispatch({ type: SET_TYPES, payload: {order,filter}});
+     return dispatch({ type: SET_TYPES, payload: {origin,filter}});
    } catch (error) {
      console.error(error);
    }

@@ -1,24 +1,27 @@
 import { loadFilters,filteredPokemons } from "../../redux/actions";
 import Home from "../Home/home";
-import { useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 function Filter() {
   const dispatch = useDispatch();
-  const [typeFilter, setTypeFilter] = useState("All");
-  const [originFilter, setOriginFilter] = useState("Any");
-  const order = useSelector((state) => state.saveFilters.order);
+  
+  const origin = useSelector((state) => state.saveFilters.origin);
   const filter = useSelector((state) => state.saveFilters.filter);
+  useEffect(() => {
+    dispatch(filteredPokemons(origin, filter));
+  }, [dispatch,origin, filter]);
+
   const handleTypeFilterChange = (event) => {
-    setTypeFilter(event.target.value).then(
-      dispatch(loadFilters(order, typeFilter))
-    ).then(dispatch(filteredPokemons(originFilter,typeFilter)))
+    
+    dispatch(loadFilters(origin, event.target.value));
   };
+
   const handleOriginFilterChange = (event) => {
-    setOriginFilter(event.target.value).then(
-      dispatch(loadFilters(originFilter, filter))
-    );
+   
+    dispatch(loadFilters(event.target.value, filter));
   };
+
   return (
     <Home
       handleOriginFilterChange={handleOriginFilterChange}
@@ -27,5 +30,5 @@ function Filter() {
   );
 }
 
-export default Filter();
+export default Filter;
 

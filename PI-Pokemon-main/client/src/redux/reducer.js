@@ -7,7 +7,7 @@ pokemonDetail:{},
 orderedPokemons:[],
 filteredPokemons:[],
 allTypes: [],
-saveFilters:{order:null,type:null}
+saveFilters:{order:null,type:null,origin:null}
 
 }
 
